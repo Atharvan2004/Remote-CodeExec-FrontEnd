@@ -1,18 +1,21 @@
-import InputNavbar from "./PlaygrounNavbar";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable prefer-const */
 import { debounce } from "lodash";
+import InputNavbar from "./PlaygrounNavbar";
 import Editor from "@monaco-editor/react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { FaJava } from "react-icons/fa";
 import { FaPython } from "react-icons/fa";
 import axios from "axios";
 import useLocalStorage from "../../Hooks/useLocalStorage";
+import { BASE_URL } from "../../../config";
 
 type FileEntry = {
   name: string;
   language: string;
   value: string;
 };
-type Props = {};
+
 type MyEditorType = {
   getValue: () => string;
   // Adjust the type according to your actual editor type
@@ -24,6 +27,7 @@ export type IsSettings = {
   settingsModalIsOpen: boolean;
   dropDownIsOpen: boolean;
 };
+
 
 let files: { [key: string]: FileEntry } = {
   "script.js": {
@@ -55,7 +59,8 @@ let files: { [key: string]: FileEntry } = {
 
 // localStorage.setItem("filesJson", JSON.stringify(files));
 
-let localFile: any;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let localFile:any;
 if (!localStorage.getItem("filesJson")) {
   localStorage.setItem("filesJson", JSON.stringify(files));
   localFile = files;
@@ -70,7 +75,7 @@ if (!localStorage.getItem("localFileName")) {
 }
 localFileName = localStorage.getItem("localFileName") || "err";
 
-function InputBox({}: Props) {
+function InputBox() {
   const [fileName, setFileName] = useState(localFileName);
   const file = localFile[fileName];
 
@@ -83,6 +88,7 @@ function InputBox({}: Props) {
     dropDownIsOpen: false,
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const handleEditorMount = (editor: any) => {
     editorRef.current = editor;
     code = localFile[fileName].value;
@@ -101,6 +107,7 @@ function InputBox({}: Props) {
   }, [fileName]);
 
   const handleChange = () => {
+    try {
     code = getEditorValue();
     localFile[fileName].value = code;
 
@@ -108,7 +115,6 @@ function InputBox({}: Props) {
     console.log(localFile[fileName].value);
     let b: string;
     b = localStorage.getItem("filesJson") || "err";
-    try {
     } catch (error) {
       console.error("Error parsing JSON:", error);
     }
@@ -123,7 +129,7 @@ function InputBox({}: Props) {
     };
     console.log(payload);
     try {
-      const output = await axios.post("http://localhost:3000/code", payload);
+      const output = await axios.post(`${BASE_URL}/code`, payload);
       console.log(output.data.data);
     } catch (error) {
       console.log(error);
