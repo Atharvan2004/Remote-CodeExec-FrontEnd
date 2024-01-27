@@ -1,4 +1,5 @@
-import { FaJava } from "react-icons/fa";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 const Icons:any = [
     {
     }

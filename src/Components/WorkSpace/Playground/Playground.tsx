@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
 import { debounce } from "lodash";
@@ -80,7 +81,7 @@ function InputBox() {
   const file = localFile[fileName];
 
   const [fontSize] = useLocalStorage("Remote-Code-Executor-FontSize", 16);
-  const [inputVal, setInputVal] = useState("0");
+  const [inputVal] = useState("0");
   const editorRef = useRef<MyEditorType | null>(null);
   const [settings, setSettings] = useState<IsSettings>({
     fontSize: fontSize,
@@ -113,8 +114,7 @@ function InputBox() {
 
     localStorage.setItem("filesJson", JSON.stringify(localFile));
     console.log(localFile[fileName].value);
-    let b: string;
-    b = localStorage.getItem("filesJson") || "err";
+    let b: string = localStorage.getItem("filesJson") || "err";
     } catch (error) {
       console.error("Error parsing JSON:", error);
     }
