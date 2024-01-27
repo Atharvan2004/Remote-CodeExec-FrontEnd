@@ -189,7 +189,6 @@ function InputBox() {
         </button>
       </div>
       <div className="w-[55vw] border-r-[10px] border-slate-200">
-        <button onClick={fetch}>jnnnh</button>
         <InputNavbar
           language={fileName}
           fetchRun={fetch}
