@@ -114,7 +114,7 @@ function InputBox() {
 
     localStorage.setItem("filesJson", JSON.stringify(localFile));
     console.log(localFile[fileName].value);
-    let b: string = localStorage.getItem("filesJson") || "err";
+    // let b: string = localStorage.getItem("filesJson") || "err";
     } catch (error) {
       console.error("Error parsing JSON:", error);
     }
