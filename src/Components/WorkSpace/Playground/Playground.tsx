@@ -10,6 +10,7 @@ import { FaPython } from "react-icons/fa";
 import axios from "axios";
 import useLocalStorage from "../../Hooks/useLocalStorage";
 import { BASE_URL } from "../../../config";
+import { useDropzone } from "react-dropzone";
 
 type FileEntry = {
   name: string;
@@ -19,8 +20,7 @@ type FileEntry = {
 
 type MyEditorType = {
   getValue: () => string;
-  // Adjust the type according to your actual editor type
-  // Other properties/methods of your editor
+  setValue: (value: string) => void;
 };
 
 export type IsSettings = {
@@ -76,6 +76,9 @@ if (!localStorage.getItem("localFileName")) {
 }
 localFileName = localStorage.getItem("localFileName") || "err";
 
+
+
+
 function InputBox() {
   const [fileName, setFileName] = useState(localFileName);
   const file = localFile[fileName];
@@ -83,6 +86,7 @@ function InputBox() {
   const [fontSize] = useLocalStorage("Remote-Code-Executor-FontSize", 16);
   const [inputVal] = useState("0");
   const editorRef = useRef<MyEditorType | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [settings, setSettings] = useState<IsSettings>({
     fontSize: fontSize,
     settingsModalIsOpen: false,
@@ -100,6 +104,27 @@ function InputBox() {
     return editorValue;
   };
   let code: string | undefined | null;
+
+  function onDrop(acceptedFiles: File[]) {
+    const file=acceptedFiles[0];
+    const reader = new FileReader();
+    if(file){
+      reader.readAsText(file);
+      reader.onload = function (e) {
+        const text = e.target?.result;        
+        if (text) {
+          editorRef.current?.setValue(text.toString());
+        }
+      };
+    }
+  }
+  const {getInputProps,getRootProps}=useDropzone({
+    accept: {
+      'text/*': ['.js','.py','.java','.c','.cpp']
+    },
+    maxFiles: 1,
+    onDrop
+  })
 
   // if (run === 1) {
   useEffect(() => {
@@ -135,6 +160,26 @@ function InputBox() {
       console.log(error);
     }
   };
+
+  // function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+  //   const file = e.target.files?.[0];
+  //   const reader = new FileReader();
+  //   if(file){
+  //     reader.readAsText(file);
+  //     reader.onload = function (e) {
+  //       const text = e.target?.result;
+  //       // localFile[fileName].value = text;
+  //       // localStorage.setItem("filesJson", JSON.stringify(localFile));
+  //       console.log(text);
+        
+  //       if (text) {
+  //         editorRef.current?.setValue(text.toString());
+  //       }
+  //     };
+  //   }
+    
+
+  // }
   // fetch();
 
   // setRun(0);
@@ -195,27 +240,43 @@ function InputBox() {
           settings={settings}
           setSettings={setSettings}
         />
-        <Editor
-          onChange={handler}
-          height="calc(100vh - 114px)"
-          theme="light"
-          options={{
-            minimap: {
-              enabled: false,
-            },
-            fontSize: settings.fontSize,
-            cursorStyle: "line",
-            wordWrap: "on",
-            scrollbar: {
-              vertical: "hidden",
-            },
-            smoothScrolling: true,
-          }}
-          path={file.name}
-          defaultLanguage={file.language}
-          value={file.value}
-          onMount={handleEditorMount}
-        />
+         {/* <input 
+        type="file"
+        ref={inputRef}
+        accept=".java,.cpp,.c,.js,.py"
+        onChange={handleFileChange}
+        /> */}
+
+        <div {...getRootProps()}>
+          <input {...getInputProps()} ref={inputRef}/>
+          <Editor
+            onChange={handler}
+            height="calc(100vh - 114px)"
+            theme="light"
+            options={{
+              minimap: {
+                enabled: false,
+              },
+              fontSize: settings.fontSize,
+              cursorStyle: "line",
+              wordWrap: "on",
+              scrollbar: {
+                vertical: "hidden",
+              },
+              smoothScrolling: true,
+              dragAndDrop: true,
+            }}
+            path={file.name}
+            defaultLanguage={file.language}
+            value={file.value}
+            onMount={handleEditorMount}        
+          />
+
+        </div>
+       
+
+
+
       </div>
     </div>
   );
