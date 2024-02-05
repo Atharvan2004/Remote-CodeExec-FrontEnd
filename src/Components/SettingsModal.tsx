@@ -1,7 +1,7 @@
 import { BsCheckLg, BsChevronDown } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
 import { IsSettings } from "./WorkSpace/Playground/Playground";
-import useLocalStorage from "./Hooks/useLocalStorage";
+import {useLocalStorage} from "./Hooks/useLocalStorage";
 
 type SettingsModalProps = {
   settings: IsSettings;

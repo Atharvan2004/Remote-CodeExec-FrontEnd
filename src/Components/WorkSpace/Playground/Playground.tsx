@@ -1,14 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
-import { debounce } from "lodash";
+import { debounce, values } from "lodash";
 import InputNavbar from "./PlaygrounNavbar";
 import Editor from "@monaco-editor/react";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { FaJava } from "react-icons/fa";
 import { FaPython } from "react-icons/fa";
 import axios from "axios";
-import useLocalStorage from "../../Hooks/useLocalStorage";
+import {useLocalStorage} from "../../Hooks/useLocalStorage";
 import { BASE_URL } from "../../../config";
 
 type FileEntry = {
@@ -62,91 +62,90 @@ let files: { [key: string]: FileEntry } = {
   },
 };
 
-// localStorage.setItem("filesJson", JSON.stringify(files));
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let localFile: any, output: any;
-if (!localStorage.getItem("filesJson")) {
-  localStorage.setItem("filesJson", JSON.stringify(files));
-  localFile = files;
+if(!localStorage.getItem("codeFile")){
+  localStorage.setItem("codeFile",JSON.stringify(files));
 }
 
-localFile = JSON.parse(localStorage.getItem("filesJson") || "err");
-
-let localFileName: string;
-if (!localStorage.getItem("localFileName")) {
-  localStorage.setItem("localFileName", "main.cpp");
-  localFileName = "main.cpp";
+async function getCode(fileName:string) {
+  const codeFile = JSON.parse(localStorage.getItem("codeFile")||"");
+  return codeFile[fileName].value;
 }
-localFileName = localStorage.getItem("localFileName") || "err";
+async function getCodeLang(fileName:string) {
+  const codeFile = JSON.parse(localStorage.getItem("codeFile")||"");
+  return codeFile[fileName].language;
+}
 
 
-
-
-
-export const InputBox: React.FC<InputBoxProps> = ({ onRunButtonClick,input }) => {
-  const [fileName, setFileName] = useState(localFileName);
-  const file = localFile[fileName];
+export const InputBox: React.FC<InputBoxProps> =  ({ onRunButtonClick,input }) => {
 
   const [fontSize] = useLocalStorage("Remote-Code-Executor-FontSize", 16);
-  const [inputVal] = useState(input);
-  const editorRef = useRef<MyEditorType | null>(null);
   const [settings, setSettings] = useState<IsSettings>({
     fontSize: fontSize,
     settingsModalIsOpen: false,
     dropDownIsOpen: false,
   });
+  
+  const fileName1 = (localStorage.getItem("fileName")?localStorage.getItem("fileName"):"main.cpp")||""
+  const code1 = (localStorage.getItem("codeFile")?JSON.parse(localStorage.getItem("codeFile")||""):files)||""
+  const [fileName,setFileName] = useState(fileName1);
+  const [code,setCode] = useState(code1[fileName1].value);
+  const [inputValue,setInputValue] = useState("0");
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const handleEditorMount = (editor: any) => {
-    editorRef.current = editor;
-    code = localFile[fileName].value;
-  };
-
-  const getEditorValue = () => {
-    const editorValue = editorRef.current?.getValue();
-    return editorValue;
-  };
-  let code: string | undefined | null;
-
-  // if (run === 1) {
-  useEffect(() => {
-    code = getEditorValue();
-    localStorage.setItem("localFileName", fileName);
-  }, [fileName]);
-
-  const handleChange = () => {
-    try {
-      code = getEditorValue();
-      localFile[fileName].value = code;
-
-      localStorage.setItem("filesJson", JSON.stringify(localFile));
-      console.log(localFile[fileName].value);
-      // let b: string = localStorage.getItem("filesJson") || "err";
-    } catch (error) {
-      console.error("Error parsing JSON:", error);
+  async function handleEditorMount(){
+    if(localStorage.getItem("fileName")) {
+      setFileName(localStorage.getItem("fileName")||"");
+      setCode(await getCode(localStorage.getItem("fileName")||""));
     }
-  };
-  const handler = useCallback(debounce(handleChange, 500), []);
+    if(localStorage.getItem("codeFile")) {
+
+      setCode(await getCode(localStorage.getItem("fileName")||files["main.cpp"].value));
+    }
+  }
+
+  function handleEditorChange(value:string|undefined){
+    const codeFile =JSON.parse(localStorage.getItem("codeFile")||"");
+    codeFile[fileName].value = value;
+    console.log(codeFile[fileName].value)
+    localStorage.setItem("codeFile",JSON.stringify(codeFile));
+    console.log(codeFile)
+  }
+
+  useEffect(()=>{
+    localStorage.setItem("fileName",fileName);
+    // setFileName(localStorage.getItem("fileName")||"");
+
+    const fetchData = async () => {
+      try {
+        const codeValue = await getCode(localStorage.getItem("fileName")||files["main.cpp"].value);
+        setCode(codeValue);
+      } catch (error) {
+        console.error("Error fetching code:", error);
+      }
+    };
+  
+    fetchData();
+    
+  },[fileName])
+  
+
+
 
   const fetch = async () => {
+   
     const payload = {
-      codeLang: file.language,
-      code,
-      inputValues: inputVal,
+        codeLang:await getCodeLang(fileName),
+        code:await getCode(fileName),
+        inputValues: inputValue,
+      };
+      console.log(payload);
+      try {
+        const output = await axios.post(`${BASE_URL}/code`, payload);
+        onRunButtonClick(output.data.data.output)
+        console.log(output.data.data);
+      } catch (error) {
+        console.log(error);
+      }
     };
-    console.log(payload);
-    try {
-      output = await axios.post(`${BASE_URL}/code`, payload);
-      onRunButtonClick(output.data.data.output)
-      console.log(output.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  // fetch();
-
-  // setRun(0);
 
   return (
     <div className="flex  ">
@@ -205,7 +204,7 @@ export const InputBox: React.FC<InputBoxProps> = ({ onRunButtonClick,input }) =>
           setSettings={setSettings}
         />
         <Editor
-          onChange={handler}
+          onChange={handleEditorChange}
           height="calc(100vh - 114px)"
           theme="light"
           options={{
@@ -220,9 +219,9 @@ export const InputBox: React.FC<InputBoxProps> = ({ onRunButtonClick,input }) =>
             },
             smoothScrolling: true,
           }}
-          path={file.name}
-          defaultLanguage={file.language}
-          value={file.value}
+          // path={file.name}
+          // defaultLanguage={file.language}
+          value={code}
           onMount={handleEditorMount}
         />
       </div>

@@ -28,7 +28,7 @@ export default function PlayGround({ output, onChange }: Props) {
         <div className="w-full text-green-700 pt-2 ml-2">
           Output:
          <div>
-         <p style={{color:"GrayText"}}>{output}</p>
+         <pre style={{color:"GrayText"}}>{output}</pre>
          </div>
         </div>
       </Split>
