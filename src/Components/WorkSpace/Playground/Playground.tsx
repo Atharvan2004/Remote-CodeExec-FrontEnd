@@ -128,7 +128,7 @@ export const InputBox: React.FC<InputBoxProps> =  ({ onRunButtonClick,input }) =
   },[fileName])
   
 
-
+  const handler = useCallback(debounce(handleEditorChange, 500), []);
 
   const fetch = async () => {
    
@@ -204,7 +204,7 @@ export const InputBox: React.FC<InputBoxProps> =  ({ onRunButtonClick,input }) =
           setSettings={setSettings}
         />
         <Editor
-          onChange={handleEditorChange}
+          onChange={handler}
           height="calc(100vh - 114px)"
           theme="light"
           options={{
