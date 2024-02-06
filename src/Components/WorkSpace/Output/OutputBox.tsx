@@ -1,4 +1,4 @@
-import OutputNavbar from "./InputNavbar";
+import {InputValuesNavbar} from "./InputNavbar";
 import Split from "react-split";
 import React from 'react';
 
@@ -16,15 +16,13 @@ export default function PlayGround({ output, onChange }: Props) {
 
   return (
     <div className="flex flex-col w-full">
-      <OutputNavbar />
+      
       <Split
         className="h-[calc(100vh-114px)]"
         direction="vertical"
-        sizes={[60, 40]}
+        sizes={[0, 40]}
       >
-        <div className="">
-          
-        </div>
+        <div className=""></div>
         <div className="w-full text-green-700 pt-2 ml-2">
           Output:
          <div>

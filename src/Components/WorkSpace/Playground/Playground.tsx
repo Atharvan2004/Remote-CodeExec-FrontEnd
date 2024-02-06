@@ -1,15 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
-import { debounce, values } from "lodash";
+import { debounce } from "lodash";
 import InputNavbar from "./PlaygrounNavbar";
 import Editor from "@monaco-editor/react";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useContext } from "react";
 import { FaJava } from "react-icons/fa";
 import { FaPython } from "react-icons/fa";
 import axios from "axios";
 import {useLocalStorage} from "../../Hooks/useLocalStorage";
 import { BASE_URL } from "../../../config";
+import { inputValuesContext } from "../WorkSpace";
+
 
 type FileEntry = {
   name: string;
@@ -17,11 +19,11 @@ type FileEntry = {
   value: string;
 };
 
-type MyEditorType = {
-  getValue: () => string;
-  // Adjust the type according to your actual editor type
-  // Other properties/methods of your editor
-};
+// type MyEditorType = {
+//   getValue: () => string;
+//   // Adjust the type according to your actual editor type
+//   // Other properties/methods of your editor
+// };
 
 type InputBoxProps = {
   onRunButtonClick: (newOutputValue: any) => void;
@@ -76,7 +78,7 @@ async function getCodeLang(fileName:string) {
 }
 
 
-export const InputBox: React.FC<InputBoxProps> =  ({ onRunButtonClick,input }) => {
+export const InputBox: React.FC<InputBoxProps> =  ({ onRunButtonClick }) => {
 
   const [fontSize] = useLocalStorage("Remote-Code-Executor-FontSize", 16);
   const [settings, setSettings] = useState<IsSettings>({
@@ -89,7 +91,7 @@ export const InputBox: React.FC<InputBoxProps> =  ({ onRunButtonClick,input }) =
   const code1 = (localStorage.getItem("codeFile")?JSON.parse(localStorage.getItem("codeFile")||""):files)||""
   const [fileName,setFileName] = useState(fileName1);
   const [code,setCode] = useState(code1[fileName1].value);
-  const [inputValue,setInputValue] = useState("0");
+  const {inputValue} = useContext(inputValuesContext)
 
   async function handleEditorMount(){
     if(localStorage.getItem("fileName")) {

@@ -1,25 +1,43 @@
-import { useState } from "react";
+import React, { useState, createContext } from "react";
 import Output from "./Output/OutputBox";
-import {InputBox} from "./Playground/Playground";
+import { InputBox } from "./Playground/Playground";
+import { InputValuesNavbar } from "./Output/InputNavbar";
 
-type Props = {};
+// Define the type for the context value
+interface InputValuesContextType {
+  inputValue: string;
+  setInputValue: React.Dispatch<React.SetStateAction<string>>;
+}
 
-function WorkSpace({}: Props) {
+// Create the context
+const inputValuesContext = createContext<InputValuesContextType>({
+  inputValue: "",
+  setInputValue: () => {} // Placeholder function
+});
+
+const WorkSpace: React.FC = () => {
   const [outputValue, setOutputValue] = useState('');
   const [inputValue, setInputValue] = useState('');
 
-  const handleRunButtonClick = (newOutputValue:any) => {
+  const handleRunButtonClick = (newOutputValue: string) => {
     setOutputValue(newOutputValue);
   };
-  const handleInput = (newInputValue:any) => {
+
+  const handleInput = (newInputValue: string) => {
     setInputValue(newInputValue);
   };
+
   return (
-    <div className="flex ">
-        <InputBox onRunButtonClick={handleRunButtonClick} input={inputValue}/>
+    <div className="flex">
+      {/* Provide the correct context value to the Provider */}
+      <inputValuesContext.Provider value={{ inputValue, setInputValue }}>
+        <InputBox onRunButtonClick={handleRunButtonClick} input={inputValue} />
+        <InputValuesNavbar />
         <Output onChange={handleInput} output={outputValue} />
+      </inputValuesContext.Provider>
     </div>
   );
-}
+};
 
 export default WorkSpace;
+export { inputValuesContext };

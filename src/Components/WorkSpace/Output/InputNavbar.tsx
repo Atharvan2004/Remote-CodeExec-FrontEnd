@@ -1,4 +1,14 @@
-function OutputNavbar() {
+import { useContext } from "react";
+import { inputValuesContext } from "../WorkSpace";
+
+
+function InputValuesNavbar() {
+
+  const {setInputValue} = useContext(inputValuesContext)
+  function handleChange(event:any){
+    setInputValue(event.target.value||"")
+  }
+
   return (
     <div>
       <div className="flex justify-between h-11 w-full items-center pt-2 bg-slate-200 text-green-700">
@@ -13,8 +23,11 @@ function OutputNavbar() {
           Clear
         </button>
       </div>
+      <div className="inputValues div">
+        <textarea onChange={handleChange}></textarea>
+      </div>
     </div>
   );
 }
 
-export default OutputNavbar;
+export {InputValuesNavbar};
