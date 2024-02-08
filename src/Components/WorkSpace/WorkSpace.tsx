@@ -1,7 +1,6 @@
 import React, { useState, createContext } from "react";
 import Output from "./Output/OutputBox";
 import { InputBox } from "./Playground/Playground";
-import { InputValuesNavbar } from "./Output/InputNavbar";
 
 // Define the type for the context value
 interface InputValuesContextType {
@@ -32,7 +31,6 @@ const WorkSpace: React.FC = () => {
       {/* Provide the correct context value to the Provider */}
       <inputValuesContext.Provider value={{ inputValue, setInputValue }}>
         <InputBox onRunButtonClick={handleRunButtonClick} input={inputValue} />
-        <InputValuesNavbar />
         <Output onChange={handleInput} output={outputValue} />
       </inputValuesContext.Provider>
     </div>

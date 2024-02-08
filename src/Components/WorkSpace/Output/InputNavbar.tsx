@@ -14,7 +14,7 @@ function InputValuesNavbar() {
       <div className="flex justify-between h-11 w-full items-center pt-2 bg-slate-200 text-green-700">
         <div
           className={
-            "bg-white rounded-t-[5px] px-5 py-[10px] text-xs cursor-pointer"
+            "bg-white rounded-t-[5px] px-5 py-[10px] text-s cursor-pointer"
           }
         >
           Inputs 
