@@ -1,7 +1,7 @@
 import { BsCheckLg, BsChevronDown } from "react-icons/bs";
 import { IoClose } from "react-icons/io5";
-import { IsSettings } from "./WorkSpace/Playground/Playground";
-import {useLocalStorage} from "./Hooks/useLocalStorage";
+import { IsSettings } from "../WorkSpace/Playground/Playground";
+import {useLocalStorage} from "../Hooks/useLocalStorage";
 
 type SettingsModalProps = {
   settings: IsSettings;
@@ -34,11 +34,15 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
         className="fixed inset-0 overflow-y-auto "
       >
         <div className="flex min-h-screen items-center justify-center px-4">
-          {/* overlay */}
+          {/* Background overlay */}
           <div
             className="opacity-100"
             onClick={() => {
-              setSettings({ ...settings, settingsModalIsOpen: false });
+              setSettings({
+                ...settings,
+                settingsModalIsOpen: false,
+                dropDownIsOpen: false,
+              });
             }}
           >
             <div className="fixed inset-0 bg-[rgb(38,38,38)] opacity-70"></div>
@@ -46,15 +50,19 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
 
           <div className="my-8 inline-block min-w-full transform rounded-[13px] text-left transition-all  md:min-w-[420px] shadow-lg p-0 bg-[rgb(40,40,40)] w-[600px] !overflow-visible opacity-100 scale-100">
             {/* setting header */}
-            <div className="flex items-center border-b px-5 py-4 text-lg font-medium">
+            <div className="flex items-center border-b border-orange-500 px-5 py-4 text-lg font-medium">
               Settings
               <button
                 className="ml-auto cursor-pointer rounded transition-all"
                 onClick={() => {
-                  setSettings({ ...settings, settingsModalIsOpen: false });
+                  setSettings({
+                    ...settings,
+                    settingsModalIsOpen: false,
+                    dropDownIsOpen: false,
+                  });
                 }}
               >
-                <IoClose />
+                <IoClose className="text-green-700" />
               </button>
             </div>
 
@@ -65,7 +73,9 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                     <strong>Font size</strong>
                   </h3>
                   <h3 className="text-base mt-1.5">
-                    Choose your preferred font size for the code editor.
+                    Choose your preferred{" "}
+                    <span className="text-green-600">Font Size</span> for the
+                    code editor.
                   </h3>
                 </div>
                 <div className="w-[170px]">
@@ -76,7 +86,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({
                       type="button"
                     >
                       {fontSize}px
-                      <BsChevronDown />
+                      <BsChevronDown className="text-orange-500" />
                     </button>
                     {/* Show dropdown for fontsizes */}
                     {settings.dropDownIsOpen && (
@@ -138,7 +148,7 @@ const SettingsListItem: React.FC<SettingsListItemProps> = ({
           selectedOption === fontSize ? "visible" : "invisible"
         }`}
       >
-        <BsCheckLg />
+        <BsCheckLg className="text-orange-500" />
       </span>
     </li>
   );

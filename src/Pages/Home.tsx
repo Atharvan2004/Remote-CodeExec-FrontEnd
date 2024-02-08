@@ -1,4 +1,4 @@
-import Navbar from "../Components/Navbar";
+import Navbar from "../Components/Navbars/Navbar";
 import WorkSpace from "../Components/WorkSpace/WorkSpace";
 
 type Props = {};

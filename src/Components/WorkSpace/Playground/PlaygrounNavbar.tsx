@@ -5,7 +5,7 @@ import {
   AiOutlineSetting,
 } from "react-icons/ai";
 import { IsSettings } from "./Playground.tsx";
-import SettingsModal from "../../SettingsModal.tsx";
+import SettingsModal from "../../Modals/SettingsModal.tsx";
 
 type Props = {
   language: string;
@@ -14,7 +14,7 @@ type Props = {
   setSettings: React.Dispatch<React.SetStateAction<IsSettings>>;
 };
 
-function InputNavbar({ language,fetchRun, settings, setSettings }: Props) {
+function InputNavbar({ language, fetchRun, settings, setSettings }: Props) {
   const [isFullscreen, setFullscreen] = useState(false);
 
   const handleFullScreen = () => {

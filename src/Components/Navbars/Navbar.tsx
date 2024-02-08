@@ -1,17 +1,26 @@
 import { Link } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
+import { useState } from "react";
+import NewRoomModal from "../Modals/NewRoomModal";
 
-type Props = {};
-
-const Navbar = ({}: Props) => {
+const Navbar = () => {
+  const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
   return (
     <nav className=" flex h-[70px] w-full shrink-0 items-center px-5 border-2 border-green-700">
       <div className={`flex w-full items-center justify-between`}>
-        <Link to="/" className="flex-1 ">
-          <img src="/logo1.png" alt="Logo" height={100} width={100} />
-        </Link>
+        <button
+          onClick={() => setIsRoomModalOpen(true)}
+          className="bg-orange-600 py-1 px-2 cursor-pointer rounded text-slate-200 hover:bg-orange-500"
+        >
+          Code With Friends ?
+        </button>
+        <div>
+          <Link to="/" className=" ">
+            <img src="/logo1.png" alt="Logo" height={100} width={100} />
+          </Link>
+        </div>
 
-        <div className="flex items-center space-x-7 flex-1 justify-end">
+        <div className="flex items-center space-x-7  justify-end">
           <Link to="/auth">
             <button className="bg-green-700 py-1 px-2 cursor-pointer rounded text-slate-200">
               SignIn
@@ -39,6 +48,12 @@ const Navbar = ({}: Props) => {
           </button>
         </div>
       </div>
+      {isRoomModalOpen && (
+        <NewRoomModal
+          isRoomModalOpen={isRoomModalOpen}
+          setIsRoomModalOpen={setIsRoomModalOpen}
+        />
+      )}
     </nav>
   );
 };
