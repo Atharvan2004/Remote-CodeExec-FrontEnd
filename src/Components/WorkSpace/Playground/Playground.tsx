@@ -80,7 +80,6 @@ export const InputBox: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
     settingsModalIsOpen: false,
     dropDownIsOpen: false,
   });
-
   const fileName1 =
     (localStorage.getItem("fileName")
       ? localStorage.getItem("fileName")
@@ -138,7 +137,7 @@ export const InputBox: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
   useEffect(() => {
     localStorage.setItem("fileName", fileName);
     setFileName(localStorage.getItem("fileName") || "");
-    console.log(fileName);
+
     const fetchData = async () => {
       try {
         const codeValue = await getCode(
@@ -283,8 +282,7 @@ export const InputBox: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
               },
               smoothScrolling: true,
             }}
-            // path={file.name}
-            // defaultLanguage={file.language}
+            defaultLanguage={files[fileName].language}
             value={code}
             onMount={handleEditorMount}
           />
