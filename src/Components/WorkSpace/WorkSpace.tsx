@@ -1,6 +1,6 @@
 import React, { useState, createContext } from "react";
 import Output from "./Output/OutputBox";
-import { InputBox } from "./Playground/Playground";
+import { Playground } from "./Playground/Playground";
 
 // Define the type for the context value
 interface InputValuesContextType {
@@ -30,7 +30,7 @@ const WorkSpace: React.FC = () => {
     <div className="flex">
       {/* Provide the correct context value to the Provider */}
       <inputValuesContext.Provider value={{ inputValue, setInputValue }}>
-        <InputBox onRunButtonClick={handleRunButtonClick} input={inputValue} />
+        <Playground onRunButtonClick={handleRunButtonClick} input={inputValue} />
         <Output onChange={handleInput} output={outputValue} />
       </inputValuesContext.Provider>
     </div>

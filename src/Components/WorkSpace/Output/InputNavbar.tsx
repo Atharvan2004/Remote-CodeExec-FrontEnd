@@ -1,5 +1,6 @@
 import { useContext } from "react";
 import { inputValuesContext } from "../WorkSpace";
+
 function InputValuesNavbar() {
   const { inputValue, setInputValue } = useContext(inputValuesContext);
   function handleChange(event: any) {

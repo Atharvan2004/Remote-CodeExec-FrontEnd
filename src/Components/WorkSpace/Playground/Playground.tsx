@@ -19,7 +19,6 @@ type FileEntry = {
   value: string;
 };
 
-
 type InputBoxProps = {
   onRunButtonClick: (newOutputValue: any) => void;
   input: string;
@@ -73,7 +72,7 @@ async function getCodeLang(fileName: string) {
   return codeFile[fileName].language;
 }
 
-export const InputBox: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
+export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
   const [fontSize] = useLocalStorage("Remote-Code-Executor-FontSize", 16);
   const [settings, setSettings] = useState<IsSettings>({
     fontSize: fontSize,
