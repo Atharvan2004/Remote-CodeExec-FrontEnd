@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { v4 as uuid } from "uuid";
+import { v4 as uuid, validate } from "uuid";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 
@@ -22,6 +22,11 @@ function NewRoomModal({ setIsRoomModalOpen }: Props) {
   const handleJoinRoom = () => {
     if (roomId === "" || username === "") {
       toast.error("Please Enter Room ID and Username");
+      return;
+    }
+
+    if (!validate(roomId)) {
+      toast.error("Invalid Room ID");
       return;
     }
     navigate(`/room/${roomId}`, { state: { username: username } });

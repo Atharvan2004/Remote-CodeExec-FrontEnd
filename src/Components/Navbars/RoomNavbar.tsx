@@ -1,30 +1,18 @@
-import React, { useState } from "react";
+import { useContext } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import Client from "../Client";
 import toast from "react-hot-toast";
-import {
-  useLocation,
-  Navigate,
-  useParams,
-} from "react-router-dom";
+import { ClientsContext } from "../../Pages/Room";
 
 interface Client {
   socketId: string;
   username: string;
 }
 
-const RoomNavbar: React.FC = () => {
-
-  const location = useLocation();
-  const { roomId } = useParams(); // params.roomId
-  const [clients, setClients] = useState<Client[]>([
-    { socketId: "1", username: "User1" },
-    { socketId: "2", username: "User2" },
-    { socketId: "3", username: "User3" },
-  ]);
-
-
+const RoomNavbar = () => {
+  const {clients} = useContext(ClientsContext);
+  console.log(clients);
   const copyRoomId = async () => {
     try {
       await navigator.clipboard.writeText(
@@ -36,7 +24,6 @@ const RoomNavbar: React.FC = () => {
       console.log(error);
     }
   };
-  if (!location.state?.username) return <Navigate to="/" />;
 
   return (
     <nav className=" flex h-[70px] w-full shrink-0 items-center px-5 border-2 border-green-700">
@@ -73,7 +60,7 @@ const RoomNavbar: React.FC = () => {
             </div>
           </div> */}
           <button className="bg-slate-200 py-1.5 px-3 cursor-pointer rounded text-green-700 border-2 border-green-700 group">
-            <Link to="/">
+            <Link to="/" replace={true} state={""}>
               <FiLogOut />
             </Link>
             <div

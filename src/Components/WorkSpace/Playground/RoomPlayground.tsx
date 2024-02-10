@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
-import { debounce } from "lodash";
+import { debounce, set } from "lodash";
 import InputNavbar from "./PlaygrounNavbar";
 import Editor from "@monaco-editor/react";
 import { useState, useEffect, useCallback, useContext, useRef } from "react";
@@ -12,12 +12,23 @@ import { useLocalStorage } from "../../Hooks/useLocalStorage";
 import { BASE_URL } from "../../../config";
 import { inputValuesContext } from "../WorkSpace";
 import { useDropzone } from "react-dropzone";
+import toast from "react-hot-toast";
+import {ClientsContext}  from "../../../Pages/Room";
+import { ACTIONS } from "../../../Actions";
+import { initSocket } from "../../../socket";
+import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Socket } from "socket.io-client";
 
 type FileEntry = {
   name: string;
   language: string;
   value: string;
 };
+
+interface Client {
+  socketId: string;
+  username: string;
+}
 
 type InputBoxProps = {
   onRunButtonClick: (newOutputValue: any) => void;
@@ -72,7 +83,9 @@ async function getCodeLang(fileName: string) {
   return codeFile[fileName].language;
 }
 
-export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
+export const RoomPlayground: React.FC<InputBoxProps> = ({
+  onRunButtonClick,
+}) => {
   const [fontSize] = useLocalStorage("Remote-Code-Executor-FontSize", 16);
   const [settings, setSettings] = useState<IsSettings>({
     fontSize: fontSize,
@@ -87,24 +100,18 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
     (localStorage.getItem("codeFile")
       ? JSON.parse(localStorage.getItem("codeFile") || "")
       : files) || "";
+
   const [fileName, setFileName] = useState(fileName1);
   const [code, setCode] = useState(code1[fileName1].value);
   const { inputValue } = useContext(inputValuesContext);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  async function handleEditorMount() {
-    if (localStorage.getItem("fileName")) {
-      setFileName(localStorage.getItem("fileName") || "");
-      setCode(await getCode(localStorage.getItem("fileName") || ""));
-    }
-    if (localStorage.getItem("codeFile")) {
-      setCode(
-        await getCode(
-          localStorage.getItem("fileName") || files["main.cpp"].value
-        )
-      );
-    }
-  }
+  const socketRef = useRef<Socket>();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const { roomId } = useParams(); // params.roomId
+  const {setClients} = useContext(ClientsContext);
+  // const [clients, setClients] = useState<Client[]>([]);
 
   const getFileEntryByExtension = async (extension: string): Promise<any> => {
     switch (extension) {
@@ -131,6 +138,14 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
     console.log(codeFile[f].value);
     localStorage.setItem("codeFile", JSON.stringify(codeFile));
     console.log(codeFile);
+
+    socketRef.current?.emit(ACTIONS.UPDATE_CODE, {
+      roomId: roomId,
+      code: codeFile[f].value,
+    });
+    socketRef.current?.emit(ACTIONS.SYNC_CODE, {
+      roomId: roomId,
+    });
   }
 
   useEffect(() => {
@@ -203,6 +218,112 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
 
   const handler = useCallback(debounce(handleEditorChange, 500), []);
 
+  async function handleEditorDidMount() {
+    if (localStorage.getItem("fileName")) {
+      setFileName(localStorage.getItem("fileName") || "");
+      setCode(await getCode(localStorage.getItem("fileName") || ""));
+    }
+    if (localStorage.getItem("codeFile")) {
+      setCode(
+        await getCode(
+          localStorage.getItem("fileName") || files["main.cpp"].value
+        )
+      );
+    }
+  }
+
+  const handleFileChange = (fileName: string) => {
+    socketRef.current?.emit(ACTIONS.UPDATE_LANGUAGE, {
+      roomId: roomId,
+      languageUsed: fileName,
+    });
+    socketRef.current?.emit(ACTIONS.SYNC_LANGUAGE, {
+      roomId: roomId,
+    });
+  };
+
+  useEffect(() => {
+    const init = async () => {
+      socketRef.current = await initSocket();
+      socketRef.current.on("connect_error", (err) => {
+        handleError(err);
+      });
+      socketRef.current.on("connect_failed", (err) => {
+        handleError(err);
+      });
+
+      function handleError(e: any) {
+        console.log("socket error", e);
+        toast.error("Socket connection failed, try again later");
+        navigate("/");
+      }
+      socketRef.current?.emit(ACTIONS.JOIN, {
+        roomId,
+        username: location.state?.username,
+      });
+
+      //     // Listening for joined event
+      socketRef.current?.on(
+        ACTIONS.JOINED,
+        ({
+          clients,
+          username,
+        }: {
+          clients: Client[];
+          username: string;
+        }) => {
+          if (username !== location.state?.username) {
+            toast.success(`${username} joined the room`);
+          }
+          setClients(clients);
+          console.log(clients);
+        }
+      );
+
+      socketRef.current?.on(
+        ACTIONS.ON_LANGUAGE_CHANGE,
+        ({ languageUsed }: { languageUsed: string }) => {
+          setFileName(languageUsed);
+        }
+      );
+
+      socketRef.current?.on(
+        ACTIONS.ON_CODE_CHANGE,
+        ({ code }: { code: string }) => {
+          setCode(code);
+        }
+      );
+
+       // Listening for disconnected
+      socketRef.current?.on(
+        ACTIONS.DISCONNECTED,
+        ({ socketId, username }: { socketId: string; username: string }) => {
+          console.log("disconnected");
+          if (username !== location.state?.username) {
+            toast.success(`${username} left the room`);
+          }
+          setClients((prev) =>
+            prev.filter((client) => client.socketId !== socketId)
+          );
+        }
+      );
+    };
+
+    init();
+    return () => {
+      socketRef.current?.disconnect();
+      socketRef.current?.off(ACTIONS.JOINED);
+      socketRef.current?.off(ACTIONS.DISCONNECTED);
+      socketRef.current?.off(ACTIONS.ON_LANGUAGE_CHANGE);
+      socketRef.current?.off(ACTIONS.ON_CODE_CHANGE);
+      socketRef.current?.off(ACTIONS.SYNC_CODE);
+      socketRef.current?.off(ACTIONS.SYNC_LANGUAGE);
+      socketRef.current?.off(ACTIONS.UPDATE_CODE);
+      socketRef.current?.off(ACTIONS.UPDATE_LANGUAGE);
+    };
+  }, [location.state, socketRef, roomId]);
+  
+  if (!location.state?.username) return <Navigate to="/" />;
   return (
     <div className="flex  ">
       <div className="flex flex-col items-center gap-2 text-sm bg-slate-200">
@@ -210,6 +331,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           disabled={fileName === "main.cpp" ? true : false}
           onClick={() => {
             setFileName("main.cpp");
+            handleFileChange("main.cpp");
           }}
           className="border-2 m-[6px] size-10 disabled:border-green-700"
         >
@@ -219,6 +341,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           disabled={fileName === "main.c" ? true : false}
           onClick={() => {
             setFileName("main.c");
+            handleFileChange("main.c");
           }}
           className="border-2  m-[6px] size-10 disabled:border-green-700"
         >
@@ -228,6 +351,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           disabled={fileName === "Main.java" ? true : false}
           onClick={() => {
             setFileName("Main.java");
+            handleFileChange("Main.java");
           }}
           className="border-2 m-[6px] size-10 disabled:border-green-700"
         >
@@ -237,6 +361,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           disabled={fileName === "script.py" ? true : false}
           onClick={() => {
             setFileName("script.py");
+            handleFileChange("script.py");
           }}
           className="border-2  m-[6px] size-10 disabled:border-green-700"
         >
@@ -246,6 +371,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           disabled={fileName === "script.js" ? true : false}
           onClick={() => {
             setFileName("script.js");
+            handleFileChange("script.js");
           }}
           className="border-2  m-[6px] size-10 disabled:border-green-700"
         >
@@ -283,7 +409,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
             }}
             defaultLanguage={files[fileName].language}
             value={code}
-            onMount={handleEditorMount}
+            onMount={handleEditorDidMount}
           />
         </div>
       </div>
