@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
-import { debounce, set } from "lodash";
+import { debounce } from "lodash";
 import InputNavbar from "./PlaygrounNavbar";
 import Editor from "@monaco-editor/react";
 import { useState, useEffect, useCallback, useContext, useRef } from "react";
@@ -13,10 +13,15 @@ import { BASE_URL } from "../../../config";
 import { inputValuesContext } from "../WorkSpace";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
-import {ClientsContext}  from "../../../Pages/Room";
+import { ClientsContext } from "../../../Pages/Room";
 import { ACTIONS } from "../../../Actions";
 import { initSocket } from "../../../socket";
-import { Navigate, useLocation, useNavigate, useParams } from "react-router-dom";
+import {
+  Navigate,
+  useLocation,
+  useNavigate,
+  useParams,
+} from "react-router-dom";
 import { Socket } from "socket.io-client";
 
 type FileEntry = {
@@ -110,8 +115,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
   const location = useLocation();
   const navigate = useNavigate();
   const { roomId } = useParams(); // params.roomId
-  const {setClients} = useContext(ClientsContext);
-  // const [clients, setClients] = useState<Client[]>([]);
+  const { setClients } = useContext(ClientsContext);
 
   const getFileEntryByExtension = async (extension: string): Promise<any> => {
     switch (extension) {
@@ -265,13 +269,13 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
       //     // Listening for joined event
       socketRef.current?.on(
         ACTIONS.JOINED,
-        ({
-          clients,
-          username,
-        }: {
-          clients: Client[];
-          username: string;
-        }) => {
+        ({ clients, username }: { clients: Client[]; username: string }) => {
+          if(clients.length > 3){
+            if(username === location.state?.username) {
+              toast.error("Room is full please try again later");
+              navigate("/");
+            }
+          }
           if (username !== location.state?.username) {
             toast.success(`${username} joined the room`);
           }
@@ -294,7 +298,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
         }
       );
 
-       // Listening for disconnected
+      // Listening for disconnected
       socketRef.current?.on(
         ACTIONS.DISCONNECTED,
         ({ socketId, username }: { socketId: string; username: string }) => {
@@ -322,7 +326,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
       socketRef.current?.off(ACTIONS.UPDATE_LANGUAGE);
     };
   }, [location.state, socketRef, roomId]);
-  
+
   if (!location.state?.username) return <Navigate to="/" />;
   return (
     <div className="flex  ">

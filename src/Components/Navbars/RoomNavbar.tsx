@@ -11,8 +11,7 @@ interface Client {
 }
 
 const RoomNavbar = () => {
-  const {clients} = useContext(ClientsContext);
-  console.log(clients);
+  const { clients } = useContext(ClientsContext);
   const copyRoomId = async () => {
     try {
       await navigator.clipboard.writeText(
