@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-type Props = {};
+// type Props = {};
 
-function Header({}: Props) {
+function Header() {
   return (
     <div className=" flex items-center justify-between sm:px-12 px-2 md:px-24  ">
       <Link to={"/"} className=" flex items-center justify-center h-20">
