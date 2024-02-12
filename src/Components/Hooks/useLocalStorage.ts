@@ -29,10 +29,10 @@ const useLocalStorage = (key: string, initialValue: number) => {
 };
 
 const useLocalFileStorage = async(key: string, initialValue: string,fileName:string) => {
-  let storedValue = localStorage.getItem(key);
+  const storedValue = localStorage.getItem(key);
 
   if(fileName.length>1){
-    let storedFile = JSON.parse(storedValue||"")
+    const storedFile = JSON.parse(storedValue||"")
     return storedFile[fileName].value
   }
 

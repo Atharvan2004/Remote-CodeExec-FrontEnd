@@ -1,4 +1,5 @@
 import {io, ManagerOptions, SocketOptions} from 'socket.io-client';
+import { BASE_URL } from './config';
 
 export const initSocket = async () => {
     const options: Partial<ManagerOptions & SocketOptions> = {
@@ -8,5 +9,5 @@ export const initSocket = async () => {
         transports: ['websocket'],
     };
     
-    return io('http://localhost:3000', options);
+    return io(`${BASE_URL}`, options);
 };  

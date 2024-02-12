@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { InputValuesNavbar } from "./InputNavbar";
 import Split from "react-split";
 
