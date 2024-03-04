@@ -55,11 +55,11 @@ export const signUpUser = (data: SignupProps, navigate: NavigateFunction): AppTh
             if (!response.data) {
                 throw new Error(response.data.message);
             }
-            toast.success("Signup successful");
+            toast.success("Account created successfully");
             navigate("/login");
         } catch (error) {
             toast.error("Could not sign up");
-            navigate('/signup');
+            navigate('/sign-up');
         }
 
         dispatch(setLoading(false));

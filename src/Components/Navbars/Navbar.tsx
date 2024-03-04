@@ -11,7 +11,7 @@ import { logout } from "../../services/authApi";
 const Navbar = () => {
   const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.profile);
-  const { token }=useSelector((state:RootState)=>state.auth);
+  const { token } = useSelector((state:RootState)=>state.auth);
   const navigate = useNavigate();
   const dispatch=useDispatch();
 
@@ -53,9 +53,6 @@ const Navbar = () => {
               </>
             )
           }
-         
-
-          
           
           {
             user && token && (
