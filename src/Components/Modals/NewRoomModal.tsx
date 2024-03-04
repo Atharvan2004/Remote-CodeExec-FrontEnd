@@ -2,6 +2,8 @@ import { useState } from "react";
 import { v4 as uuid, validate } from "uuid";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../main";
 
 type Props = {
   isRoomModalOpen: boolean;
@@ -10,7 +12,8 @@ type Props = {
 
 function NewRoomModal({ setIsRoomModalOpen }: Props) {
   const [roomId, setRoomId] = useState<string>("");
-  const [username, setUsername] = useState<string>("");
+  const { user } = useSelector((state:RootState) => state.profile);
+  const [username] = useState<string>(`${user?.userName}`);
   const navigate = useNavigate();
 
   const createNewRoom = (e: React.MouseEvent) => {
@@ -73,7 +76,7 @@ function NewRoomModal({ setIsRoomModalOpen }: Props) {
                 placeholder="USERNAME"
                 className=" p-2 rounded-md outline-none border-none mb-5 font-bold text-base text-black"
                 value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                disabled
                 onKeyUp={handleKeyEnter}
               />
               <button
