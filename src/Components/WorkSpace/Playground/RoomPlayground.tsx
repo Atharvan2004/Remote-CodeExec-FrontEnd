@@ -11,7 +11,7 @@ import { FaPython } from "react-icons/fa";
 import axios from "axios";
 import { useLocalStorage } from "../../Hooks/useLocalStorage";
 import { BASE_URL } from "../../../config";
-import { inputValuesContext } from "../WorkSpace";
+import { CodeValuesContext } from "../RoomWorkspace";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
 import { ClientsContext } from "../../../Pages/Room";
@@ -109,7 +109,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
 
   const [fileName, setFileName] = useState(fileName1);
   const [code, setCode] = useState(code1[fileName1].value);
-  const { inputValue } = useContext(inputValuesContext);
+  const { inputValue } = useContext(CodeValuesContext);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const socketRef = useRef<Socket>();

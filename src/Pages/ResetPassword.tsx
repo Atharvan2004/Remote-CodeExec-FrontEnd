@@ -24,7 +24,7 @@ const ResetPassword = () => {
     })
 
     const handleOnSubmit=(formData:{password:string,confirmPassword:string})=>{
-        const token=location.pathname.split("/").at(-1)|| '';
+        const token=location.pathname.split("/")[2].charAt(-1)|| '';
 
         dispatch<any>(resetPassword(formData.password,formData.confirmPassword,token,navigate));
     }

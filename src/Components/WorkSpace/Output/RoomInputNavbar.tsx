@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useContext } from "react";
-import { inputValuesContext } from "../WorkSpace";
+import { CodeValuesContext } from "../RoomWorkspace";
 
 function InputValuesNavbar() {
-  const { inputValue, setInputValue } = useContext(inputValuesContext);
+  const { inputValue, setInputValue } = useContext(CodeValuesContext);
   function handleChange(event: any) {
     setInputValue(event.target.value || "");
   }

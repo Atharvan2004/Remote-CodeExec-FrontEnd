@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
-import { debounce } from "lodash";
+import { debounce} from "lodash";
 import InputNavbar from "./PlaygrounNavbar";
 import Editor from "@monaco-editor/react";
 import { useState, useEffect, useCallback, useContext, useRef } from "react";
@@ -13,6 +13,7 @@ import { useLocalStorage } from "../../Hooks/useLocalStorage";
 import { BASE_URL } from "../../../config";
 import { inputValuesContext } from "../WorkSpace";
 import { useDropzone } from "react-dropzone";
+import moment from "moment";
 
 type FileEntry = {
   name: string;
@@ -21,7 +22,7 @@ type FileEntry = {
 };
 
 type InputBoxProps = {
-  onRunButtonClick: (newOutputValue: any) => void;
+  onRunButtonClick: (newOutputValue: any,newExecutionTime: any) => void;
   input: string;
 };
 
@@ -92,6 +93,8 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
   const [code, setCode] = useState(code1[fileName1].value);
   const { inputValue } = useContext(inputValuesContext);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [status, setStatus] = useState("");
+  const [jobDetails, setJobDetails] = useState(null);
 
   async function handleEditorMount() {
     if (localStorage.getItem("fileName")) {
@@ -160,12 +163,51 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
     };
     console.log(payload);
     try {
+      setStatus("");
+      onRunButtonClick("","");
       const output = await axios.post(`${BASE_URL}/code`, payload);
-      onRunButtonClick(output.data.data.output);
+      // onRunButtonClick(output.data.data.jobID);
       console.log(output.data.data);
+
+      let intervalID: number | undefined;
+
+      intervalID = setInterval(async () => {
+        const res = await axios.get(
+          `${BASE_URL}/status?id=${output.data.data.jobID}`
+        );
+        console.log(res);
+
+        const { success, data } = res.data;
+        if (success) {
+          const { status: jobStatus, output: jobOutput } = data;
+          setStatus(jobStatus);
+          setJobDetails(data);
+          if (jobStatus === "running") return;
+          onRunButtonClick(jobOutput,renderTimeDetails());
+          clearInterval(intervalID);
+        } else {
+          setStatus("Error! Please try again.");
+          clearInterval(intervalID);
+          onRunButtonClick("Error in fetching output","");
+        }
+      }, 1000);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const renderTimeDetails = () => {
+    if (jobDetails) {
+      const { StartedAt, completedAt } = jobDetails;
+      let result = "";
+      const start = moment(StartedAt);
+      const end = moment(completedAt);
+      const duration = moment.duration(end.diff(start, "seconds", true));
+
+      result += `Execution Time: ${duration.asSeconds()}s`;
+      return result;
+    }
+    return "";
   };
 
   async function onDrop(acceptedFiles: File[]) {

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { InputValuesNavbar } from "./InputNavbar";
+import { InputValuesNavbar } from "./RoomInputNavbar";
 import Split from "react-split";
 
 type Props = {

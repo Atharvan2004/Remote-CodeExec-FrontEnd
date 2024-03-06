@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
@@ -36,8 +36,8 @@ const LoginForm = () => {
       <form onSubmit={handleSubmit(handleOnSubmit)} className="flex w-full flex-col gap-y-4">
 
           <label>
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem] text-richblack-5">
-              Username Or Email <sup className="text-pink-200">*</sup>
+            <p className="mb-4 text-[0.875rem] leading-[1.375rem] font-semibold ">
+              Username Or Email <sup className="text-pink-500">*</sup>
             </p>
             <input
               type="text"
@@ -46,13 +46,13 @@ const LoginForm = () => {
               style={{
                 boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
               }}
-              className="w-full rounded-[0.5rem] p-[12px]"
+              className="w-full rounded-[0.5rem] p-[12px] border-green-700 border-2 select-none"
             />
           </label>
         
           <label className="relative">
-            <p className="mb-1 text-[0.875rem] leading-[1.375rem]">
-              Password <sup className="text-pink-200">*</sup>
+            <p className="mb-4 text-[0.875rem] leading-[1.375rem] font-semibold">
+              Password <sup className="text-pink-500">*</sup>
             </p>
             <input
               type={showPassword ? "text" : "password"}
@@ -62,29 +62,29 @@ const LoginForm = () => {
               style={{
                 boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
               }}
-              className="w-full rounded-[0.5rem] p-[12px] pr-10"
+              className="w-full rounded-[0.5rem] p-[12px] pr-10 border-green-700 border-2 select-none"
             />
             <span
               onClick={() => setShowPassword((prev) => !prev)}
-              className="absolute right-3 top-[38px] z-[10] cursor-pointer"
+              className="absolute right-3 top-[50px] z-[10] cursor-pointer"
             >
               {showPassword ? (
-                <AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF" />
+                <AiOutlineEyeInvisible fontSize={24} />
               ) : (
-                <AiOutlineEye fontSize={24} fill="#AFB2BF" />
+                <AiOutlineEye fontSize={24} />
               )}
             </span>
 
             <Link to="/forgot-password">
-              <p className="mt-1 ml-auto max-w-max text-xs text-blue-100">
-                Forgot Password
+              <p className="mt-4 ml-auto max-w-max text-s text-black underline">
+                Forgot Password..
               </p>
             </Link>
           </label>
 
         <button
           type="submit"
-          className="mt-6 rounded-[8px] bg-yellow-50 py-[8px] px-[12px] font-medium text-richblack-900">
+          className="mt-5 rounded-[8px] bg-orange-500 py-[10px] px-[14px] font-semibold text-white ">
           Login
         </button>
       </form>

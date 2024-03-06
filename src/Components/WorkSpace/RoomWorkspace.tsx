@@ -1,5 +1,5 @@
 import React, { useState, createContext } from "react";
-import Output from "./Output/OutputBox";
+import Output from "./Output/RoomOutputBox";
 import { RoomPlayground } from "./Playground/RoomPlayground";
 
 // Define the type for the context value

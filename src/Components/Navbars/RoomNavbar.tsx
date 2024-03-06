@@ -58,18 +58,18 @@ const RoomNavbar = () => {
               <p className="text-sm">{"Email"}</p>
             </div>
           </div> */}
-          <button className="bg-slate-200 py-1.5 px-3 cursor-pointer rounded text-green-700 border-2 border-green-700 group">
-            <Link to="/" replace={true} state={""}>
+          <Link to="/" replace={true} state={""}>
+            <button className="bg-slate-200 py-1.5 px-3 cursor-pointer rounded text-green-700 border-2 border-green-700 group">
               <FiLogOut />
-            </Link>
-            <div
-              className="absolute top-[60px] right-2  mx-auto bg-slate-200 text-brand-orange p-2 rounded shadow-lg 
-                        z-40 group-hover:scale-100 scale-0 text-green-700
-                        transition-all duration-300 ease-in-out"
-            >
-              <p className="text-sm">{"Leave room?"}</p>
-            </div>
-          </button>
+              <div
+                className="absolute top-[60px] right-2  mx-auto bg-slate-200 text-brand-orange p-2 rounded shadow-lg 
+              z-40 group-hover:scale-100 scale-0 text-green-700
+              transition-all duration-300 ease-in-out"
+              >
+                <p className="text-sm">{"Leave room?"}</p>
+              </div>
+            </button>
+          </Link>
         </div>
       </div>
     </nav>
