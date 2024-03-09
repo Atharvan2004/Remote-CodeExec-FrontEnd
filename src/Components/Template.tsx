@@ -25,7 +25,8 @@ const Template = ({ title, description1, description2, image, formType }:PropsTy
         {loading ? (
           <div className="spinner"></div>
         ) : (
-          <div className="flex w-[80vw] h-[80vh] flex-col-reverse justify-between rounded-3xl drop-shadow-2xl bg-white p-10 gap-y-12 py-12 md:flex-row md:gap-y-0 md:gap-x-12">
+          <div className="flex w-[80vw] py-20 flex-col-reverse justify-around rounded-3xl drop-shadow-2xl
+           bg-white px-10 gap-y-12 md:flex-row md:gap-y-0 md:gap-x-12">
             <div className="mx-auto w-11/12 max-w-[500px] md:mx-0">
               <h1 className="text-[1.875rem] font-semibold leading-[2.375rem] text-green-800">
                 {title}
@@ -38,7 +39,7 @@ const Template = ({ title, description1, description2, image, formType }:PropsTy
               </p>
               {formType === "signup" ? <SignupForm /> : <LoginForm />}
             </div>
-            <div className="relative mx-auto w-11/12 max-w-[450px] md:mx-0">
+            <div className="relative mx-auto my-auto w-11/12 max-w-[450px] md:mx-0 max-xl:hidden">
               <img
                 src={frameImg}
                 alt="Pattern"
@@ -50,7 +51,7 @@ const Template = ({ title, description1, description2, image, formType }:PropsTy
                 src={image}
                 alt="Students"
                 loading="lazy"
-                className="absolute -top-4 right-4 z-10 w-[558px] h-[404px]"
+                className="absolute -top-3 right-3 z-10 w-[558px] h-[404px]"
               />
               
             </div>

@@ -28,9 +28,9 @@ const ForgotPassword = () => {
 
   return (
     <div className='flex justify-center items-center w-full h-screen my-auto bg-slate-200'>
-      <div className='w-[30%] bg-white p-8 rounded-lg'>
+      <div className='w-[550px] bg-white p-8 rounded-lg'>
       {
-        loading?<div className='spinner'></div>
+        loading?<div className='spinner w-screen h-screen'></div>
         :<div>
             {emailSent?<h1 className='text-3xl text-green-700'>Check Email</h1>:<h1 className='text-3xl text-green-700'>Reset Your Password</h1>}
             {emailSent?<p className=' font-semibold'>We have sent the reset email to {email}</p>:

@@ -39,7 +39,7 @@ const VerifyEmail = () => {
 
 return (
   <div className='flex justify-center items-center h-[100vh] bg-slate-200'>
-      <div className=' w-[35%] flex justify-center items-center bg-white p-6 rounded-lg'>
+      <div className=' w-[520px] flex justify-center items-center bg-white px-6 py-10 rounded-lg'>
     {
       loading?(<div className='spinner'></div>)
       :(
@@ -70,7 +70,7 @@ return (
               </form>
 
               <div className='flex justify-between '>
-                  <Link to={"/signup"} className='flex items-center text-sm gap-1'>
+                  <Link to={"/sign-up"} className='flex items-center text-sm gap-1'>
                       <BiArrowBack/>
                      <p>Back to signup</p> 
                   </Link>

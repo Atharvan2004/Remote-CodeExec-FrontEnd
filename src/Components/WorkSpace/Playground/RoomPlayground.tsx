@@ -140,9 +140,9 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
     const f = localStorage.getItem("fileName") || "";
 
     codeFile[f].value = value;
-    console.log(codeFile[f].value);
+    // console.log(codeFile[f].value);
     localStorage.setItem("codeFile", JSON.stringify(codeFile));
-    console.log(codeFile);
+    // console.log(codeFile);
 
     socketRef.current?.emit(ACTIONS.UPDATE_CODE, {
       roomId: roomId,
@@ -181,7 +181,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
     try {
       const output = await axios.post(`${BASE_URL}/code`, payload);
       onRunButtonClick(output.data.data.output);
-      console.log(output.data.data);
+      console.log("output -->",output);
     } catch (error) {
       console.log(error);
     }

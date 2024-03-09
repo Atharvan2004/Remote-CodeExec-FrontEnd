@@ -32,7 +32,7 @@ const ResetPassword = () => {
   return (
     <div className=' flex justify-center items-center h-screen'>
       {loading?<div className='spinner'></div>
-      :<div className='w-[25%]'>
+      :<div className='w-[450px]'>
         <h1 className=' text-3xl mb-3 font-medium'>Choose New Password</h1>
         <p className=' mb-3'>Almost done. Enter your new password and you're all set.</p>
 
@@ -50,7 +50,7 @@ const ResetPassword = () => {
                 />
 
                 <span onClick={()=>setShowPassword((prevState)=>!prevState)}
-                className='absolute text-xl top-12 left-96'>
+                className='absolute text-xl top-12 left-[410px]'>
                     {
                     showPassword?
                     <AiOutlineEyeInvisible/>
