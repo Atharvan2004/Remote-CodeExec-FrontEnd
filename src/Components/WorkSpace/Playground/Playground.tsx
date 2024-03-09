@@ -95,6 +95,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [status, setStatus] = useState("");
   const [jobDetails, setJobDetails] = useState(null);
+  const [loading,setLoading]=useState(false);
 
   async function handleEditorMount() {
     if (localStorage.getItem("fileName")) {
@@ -156,6 +157,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
   }, [fileName]);
 
   const fetch = async () => {
+    setLoading(true);
     const payload = {
       codeLang: await getCodeLang(fileName),
       code: await getCode(fileName),
@@ -166,17 +168,16 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
       setStatus("");
       onRunButtonClick("","");
       const output = await axios.post(`${BASE_URL}/code`, payload);
-      // onRunButtonClick(output.data.data.jobID);
       console.log(output.data.data);
-
+  
       let intervalID: number | undefined;
-
+  
       intervalID = setInterval(async () => {
         const res = await axios.get(
           `${BASE_URL}/status?id=${output.data.data.jobID}`
         );
         console.log(res);
-
+  
         const { success, data } = res.data;
         if (success) {
           const { status: jobStatus, output: jobOutput } = data;
@@ -184,14 +185,17 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           setJobDetails(data);
           if (jobStatus === "running") return;
           onRunButtonClick(jobOutput,renderTimeDetails());
+          setLoading(false); // Move setLoading(false) here
           clearInterval(intervalID);
         } else {
           setStatus("Error! Please try again.");
+          setLoading(false); // And here
           clearInterval(intervalID);
           onRunButtonClick("Error in fetching output","");
         }
       }, 1000);
     } catch (error) {
+      setLoading(false); // Also set loading to false in the catch block
       console.log(error);
     }
   };
@@ -202,7 +206,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
       let result = "";
       const start = moment(StartedAt);
       const end = moment(completedAt);
-      const duration = moment.duration(end.diff(start, "seconds", true));
+      const duration = moment.duration(end.diff(start));
 
       result += `Execution Time: ${duration.asSeconds()}s`;
       return result;
@@ -301,6 +305,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           fetchRun={fetch}
           settings={settings}
           setSettings={setSettings}
+          loading={loading}
         />
         <div {...getRootProps()}>
           <input

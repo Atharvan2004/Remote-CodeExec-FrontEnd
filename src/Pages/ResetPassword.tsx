@@ -6,6 +6,7 @@ import { resetPassword } from "../services/authApi";
 import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
+import Not_Available from '../../public/not_available.jpg'
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
@@ -40,7 +41,14 @@ const ResetPassword = () => {
   };
 
   return (
-    <div className=" flex justify-center items-center h-screen bg-slate-200">
+    <div>
+      <div className="hidden justify-center items-center max-md:flex">
+        <img
+        src={Not_Available}
+        className="h-screen"/>
+      </div>
+
+      <div className="flex justify-center items-center h-screen bg-slate-200 max-md:hidden">
       {loading ? (
         <div className="spinner"></div>
       ) : (
@@ -110,7 +118,10 @@ const ResetPassword = () => {
           </form>
         </div>
       )}
+      </div>
     </div>
+
+    
   );
 };
 

@@ -12,9 +12,10 @@ type Props = {
   fetchRun: () => void;
   settings: IsSettings;
   setSettings: React.Dispatch<React.SetStateAction<IsSettings>>;
+  loading: boolean;
 };
 
-function InputNavbar({ language, fetchRun, settings, setSettings }: Props) {
+function InputNavbar({ language, fetchRun, settings, setSettings ,loading}: Props) {
   const [isFullscreen, setFullscreen] = useState(false);
 
   const handleFullScreen = () => {
@@ -57,10 +58,10 @@ function InputNavbar({ language, fetchRun, settings, setSettings }: Props) {
 
       <div className="flex items-center m-2">
         <button
-          onClick={fetchRun}
-          className=" rounded px-3 py-1.5 font-medium items-center transition-all focus:outline-none inline-flex  ml-auto p-1 mr-2 bg-green-700 text-white"
-        >
-          Run
+            onClick={loading ? () => {} : fetchRun }
+            className=" rounded px-3 py-1.5 font-medium items-center transition-all focus:outline-none inline-flex  ml-auto p-1 mr-2 bg-green-700 text-white"
+        >{loading?"Loading..":"Run"}
+         
         </button>
         <button
           className="relative rounded px-3 py-1.5 font-medium items-center transition-all focus:outline-none inline-flex  ml-auto p-1 mr-2 group"
