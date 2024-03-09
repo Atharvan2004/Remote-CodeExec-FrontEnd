@@ -46,7 +46,7 @@ const LoginForm = () => {
               style={{
                 boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
               }}
-              className="w-full rounded-[0.5rem] p-[12px] border-green-700 border-2 select-none"
+              className="w-full rounded-[0.5rem] p-[12px] border-green-700 border-2 focus:outline-none "
             />
           </label>
         
@@ -62,7 +62,7 @@ const LoginForm = () => {
               style={{
                 boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
               }}
-              className="w-full rounded-[0.5rem] p-[12px] pr-10 border-green-700 border-2 select-none"
+              className="w-full rounded-[0.5rem] p-[12px] pr-10 border-green-700 border-2 focus:outline-none "
             />
             <span
               onClick={() => setShowPassword((prev) => !prev)}

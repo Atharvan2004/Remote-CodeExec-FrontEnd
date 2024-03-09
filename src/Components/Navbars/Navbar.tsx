@@ -23,7 +23,7 @@ const Navbar = () => {
           user && (
           <button
             onClick={() => setIsRoomModalOpen(true)}
-            className="bg-orange-600 py-2 px-3 cursor-pointer rounded text-slate-200 hover:bg-orange-500">
+            className="bg-orange-500 py-2 px-3 cursor-pointer rounded text-slate-200 hover:bg-orange-600 font-semibold">
             Code With Friends ?
           </button>
           )
@@ -57,8 +57,15 @@ const Navbar = () => {
           {
             user && token && (
               <>
-                <div className="">
+                <div className="group">
                   <img src={user?.image} width={35} height={35} className="rounded-full"/>
+                  <div
+                className="absolute top-[60px] right-2  mx-auto bg-slate-200 text-brand-orange p-2 rounded shadow-lg 
+              z-40 group-hover:scale-100 scale-0 text-green-700
+              transition-all duration-300 ease-in-out"
+              >
+                <p className="text-sm">{user.image}</p>
+              </div>
                 </div>
                 <button className="bg-slate-200 py-1.5 px-3 cursor-pointer rounded text-green-700 border-2 border-green-700" 
                 onClick={() => dispatch<any>(logout(navigate))}>

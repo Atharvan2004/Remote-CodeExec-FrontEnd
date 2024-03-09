@@ -28,7 +28,7 @@ const ForgotPassword = () => {
 
   return (
     <div className='flex justify-center items-center w-full h-screen my-auto bg-slate-200'>
-      <div className='w-[550px] bg-white p-8 rounded-lg'>
+      <div className='w-[550px] bg-white p-8 rounded-3xl'>
       {
         loading?<div className='spinner w-screen h-screen'></div>
         :<div>
@@ -49,7 +49,7 @@ const ForgotPassword = () => {
                         style={{
                         boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
                         }}
-                        className="w-full mt-4 rounded-[0.5rem] border-green-700 border-2 p-[12px] pr-12 "
+                        className="w-full mt-4 rounded-[0.5rem] border-green-700 border-2 p-[12px] pr-12 focus:outline-none  "
                     />
                 </label>
             }

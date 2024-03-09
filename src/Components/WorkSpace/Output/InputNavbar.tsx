@@ -23,8 +23,8 @@ function InputValuesNavbar() {
           Clear
         </button>
       </div>
-      <div className="textdiv w-full" style={{ zIndex: "0", position: "absolute", height: "90%" }}>
-        <textarea value={inputValue} onChange={handleChange} className="w-full p-2 h-full" style={{ zIndex: "0", outline: 'none', height: "calc(100% - 40px)" }}></textarea>
+      <div className="textdiv w-full" style={{ zIndex: "0", position: "absolute", height: "95%" }}>
+        <textarea value={inputValue} onChange={handleChange} className="w-full p-2 h-full" style={{resize:"none", zIndex: "0", outline: 'none', height: "calc(100% - 40px)" }}></textarea>
       </div>
     </>
   );
