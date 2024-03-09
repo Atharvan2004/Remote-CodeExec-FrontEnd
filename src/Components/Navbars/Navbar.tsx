@@ -58,13 +58,13 @@ const Navbar = () => {
             user && token && (
               <>
                 <div className="group">
-                  <img src={user?.image} width={35} height={35} className="rounded-full"/>
+                  <img src={user?.image} width={35} height={35} className="rounded-full mr-4"/>
                   <div
-                className="absolute top-[60px] right-2  mx-auto bg-slate-200 text-brand-orange p-2 rounded shadow-lg 
+                className="absolute top-[60px] right-[5.5vw]  mx-auto bg-slate-200 text-brand-orange p-2 rounded shadow-lg 
               z-40 group-hover:scale-100 scale-0 text-green-700
-              transition-all duration-300 ease-in-out"
+              transition-all duration-300 ease-in-out font-semibold"
               >
-                <p className="text-sm">{user.image}</p>
+                <p className="text-sm">{user.userName}</p>
               </div>
                 </div>
                 <button className="bg-slate-200 py-1.5 px-3 cursor-pointer rounded text-green-700 border-2 border-green-700" 

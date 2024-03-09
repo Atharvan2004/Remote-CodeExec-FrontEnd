@@ -2,7 +2,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable prefer-const */
-import { debounce} from "lodash";
+import { debounce } from "lodash";
 import InputNavbar from "./PlaygrounNavbar";
 import Editor from "@monaco-editor/react";
 import { useState, useEffect, useCallback, useContext, useRef } from "react";
@@ -22,7 +22,7 @@ type FileEntry = {
 };
 
 type InputBoxProps = {
-  onRunButtonClick: (newOutputValue: any,newExecutionTime: any) => void;
+  onRunButtonClick: (newOutputValue: any, newExecutionTime: any) => void;
   input: string;
 };
 
@@ -164,7 +164,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
     console.log(payload);
     try {
       setStatus("");
-      onRunButtonClick("","");
+      onRunButtonClick("", "");
       const output = await axios.post(`${BASE_URL}/code`, payload);
       // onRunButtonClick(output.data.data.jobID);
       console.log(output.data.data);
@@ -183,12 +183,12 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           setStatus(jobStatus);
           setJobDetails(data);
           if (jobStatus === "running") return;
-          onRunButtonClick(jobOutput,renderTimeDetails());
+          onRunButtonClick(jobOutput, renderTimeDetails());
           clearInterval(intervalID);
         } else {
           setStatus("Error! Please try again.");
           clearInterval(intervalID);
-          onRunButtonClick("Error in fetching output","");
+          onRunButtonClick("Error in fetching output", "");
         }
       }, 1000);
     } catch (error) {

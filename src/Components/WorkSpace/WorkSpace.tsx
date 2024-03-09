@@ -14,16 +14,19 @@ interface InputValuesContextType {
 const inputValuesContext = createContext<InputValuesContextType>({
   inputValue: "",
   executionTime: "",
-  setInputValue: () => {} ,// Placeholder function
-  setExecutionTime: () => {} // Placeholder function
+  setInputValue: () => {}, // Placeholder function
+  setExecutionTime: () => {}, // Placeholder function
 });
 
 const WorkSpace: React.FC = () => {
-  const [outputValue, setOutputValue] = useState('');
-  const [inputValue, setInputValue] = useState('');
+  const [outputValue, setOutputValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [executionTime, setExecutionTime] = useState("");
 
-  const handleRunButtonClick = (newOutputValue: string,newExecutionTime: string) => {
+  const handleRunButtonClick = (
+    newOutputValue: string,
+    newExecutionTime: string
+  ) => {
     setOutputValue(newOutputValue);
     setExecutionTime(newExecutionTime);
   };
@@ -35,9 +38,18 @@ const WorkSpace: React.FC = () => {
   return (
     <div className="flex">
       {/* Provide the correct context value to the Provider */}
-      <inputValuesContext.Provider value={{ inputValue, setInputValue,executionTime,setExecutionTime }}>
-        <Playground onRunButtonClick={handleRunButtonClick} input={inputValue}  />
-        <Output onChange={handleInput} output={outputValue} executionTime={executionTime}/>
+      <inputValuesContext.Provider
+        value={{ inputValue, setInputValue, executionTime, setExecutionTime }}
+      >
+        <Playground
+          onRunButtonClick={handleRunButtonClick}
+          input={inputValue}
+        />
+        <Output
+          onChange={handleInput}
+          output={outputValue}
+          executionTime={executionTime}
+        />
       </inputValuesContext.Provider>
     </div>
   );

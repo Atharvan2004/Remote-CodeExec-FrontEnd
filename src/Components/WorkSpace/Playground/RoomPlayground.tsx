@@ -38,7 +38,7 @@ interface Client {
 }
 
 type InputBoxProps = {
-  onRunButtonClick: (newOutputValue: any,newExecutionTime: any) => void;
+  onRunButtonClick: (newOutputValue: any, newExecutionTime: any) => void;
   input: string;
 };
 
@@ -183,7 +183,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
     console.log(payload);
     try {
       setStatus("");
-      onRunButtonClick("","");
+      onRunButtonClick("", "");
       const output = await axios.post(`${BASE_URL}/code`, payload);
       // onRunButtonClick(output.data.data.jobID);
       console.log(output.data.data);
@@ -202,12 +202,12 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
           setStatus(jobStatus);
           setJobDetails(data);
           if (jobStatus === "running") return;
-          onRunButtonClick(jobOutput,renderTimeDetails());
+          onRunButtonClick(jobOutput, renderTimeDetails());
           clearInterval(intervalID);
         } else {
           setStatus("Error! Please try again.");
           clearInterval(intervalID);
-          onRunButtonClick("Error in fetching output","");
+          onRunButtonClick("Error in fetching output", "");
         }
       }, 1000);
     } catch (error) {
@@ -228,7 +228,6 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
     }
     return "";
   };
-
 
   async function onDrop(acceptedFiles: File[]) {
     const file = acceptedFiles[0];
@@ -314,8 +313,8 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
       socketRef.current?.on(
         ACTIONS.JOINED,
         ({ clients, username }: { clients: Client[]; username: string }) => {
-          if(clients.length > 3){
-            if(username === location.state?.username) {
+          if (clients.length > 3) {
+            if (username === location.state?.username) {
               toast.error("Room is full please try again later");
               navigate("/");
             }

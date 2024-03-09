@@ -15,15 +15,18 @@ const CodeValuesContext = createContext<CodeValuesContextType>({
   inputValue: "",
   executionTime: "",
   setInputValue: () => {}, // Placeholder function
-  setExecutionTime: () => {} // Placeholder function
+  setExecutionTime: () => {}, // Placeholder function
 });
 
 const RoomWorkSpace: React.FC = () => {
-  const [outputValue, setOutputValue] = useState('');
-  const [inputValue, setInputValue] = useState('');
+  const [outputValue, setOutputValue] = useState("");
+  const [inputValue, setInputValue] = useState("");
   const [executionTime, setExecutionTime] = useState("");
 
-  const handleRunButtonClick = (newOutputValue: string, newExecutionTime: string) => {
+  const handleRunButtonClick = (
+    newOutputValue: string,
+    newExecutionTime: string
+  ) => {
     setOutputValue(newOutputValue);
     setExecutionTime(newExecutionTime);
   };
@@ -35,9 +38,18 @@ const RoomWorkSpace: React.FC = () => {
   return (
     <div className="flex">
       {/* Provide the correct context value to the Provider */}
-      <CodeValuesContext.Provider value={{ inputValue, setInputValue,executionTime,setExecutionTime }}>
-        <RoomPlayground onRunButtonClick={handleRunButtonClick} input={inputValue} />
-        <Output onChange={handleInput} output={outputValue} executionTime={executionTime} />
+      <CodeValuesContext.Provider
+        value={{ inputValue, setInputValue, executionTime, setExecutionTime }}
+      >
+        <RoomPlayground
+          onRunButtonClick={handleRunButtonClick}
+          input={inputValue}
+        />
+        <Output
+          onChange={handleInput}
+          output={outputValue}
+          executionTime={executionTime}
+        />
       </CodeValuesContext.Provider>
     </div>
   );

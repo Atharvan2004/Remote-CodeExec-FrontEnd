@@ -12,7 +12,7 @@ type Props = {
 
 function NewRoomModal({ setIsRoomModalOpen }: Props) {
   const [roomId, setRoomId] = useState<string>("");
-  const { user } = useSelector((state:RootState) => state.profile);
+  const { user } = useSelector((state: RootState) => state.profile);
   const [username] = useState<string>(`${user?.userName}`);
   const navigate = useNavigate();
 
