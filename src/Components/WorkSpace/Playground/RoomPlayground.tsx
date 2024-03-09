@@ -24,6 +24,7 @@ import {
   useParams,
 } from "react-router-dom";
 import { Socket } from "socket.io-client";
+import moment from "moment";
 
 type FileEntry = {
   name: string;
@@ -37,7 +38,7 @@ interface Client {
 }
 
 type InputBoxProps = {
-  onRunButtonClick: (newOutputValue: any) => void;
+  onRunButtonClick: (newOutputValue: any,newExecutionTime: any) => void;
   input: string;
 };
 
@@ -111,6 +112,8 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
   const [code, setCode] = useState(code1[fileName1].value);
   const { inputValue } = useContext(CodeValuesContext);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [status, setStatus] = useState("");
+  const [jobDetails, setJobDetails] = useState(null);
 
   const socketRef = useRef<Socket>();
   const location = useLocation();
@@ -179,13 +182,53 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
     };
     console.log(payload);
     try {
+      setStatus("");
+      onRunButtonClick("","");
       const output = await axios.post(`${BASE_URL}/code`, payload);
-      onRunButtonClick(output.data.data.output);
-      console.log("output -->",output);
+      // onRunButtonClick(output.data.data.jobID);
+      console.log(output.data.data);
+
+      let intervalID: number | undefined;
+
+      intervalID = setInterval(async () => {
+        const res = await axios.get(
+          `${BASE_URL}/status?id=${output.data.data.jobID}`
+        );
+        console.log(res);
+
+        const { success, data } = res.data;
+        if (success) {
+          const { status: jobStatus, output: jobOutput } = data;
+          setStatus(jobStatus);
+          setJobDetails(data);
+          if (jobStatus === "running") return;
+          onRunButtonClick(jobOutput,renderTimeDetails());
+          clearInterval(intervalID);
+        } else {
+          setStatus("Error! Please try again.");
+          clearInterval(intervalID);
+          onRunButtonClick("Error in fetching output","");
+        }
+      }, 1000);
     } catch (error) {
       console.log(error);
     }
   };
+
+  const renderTimeDetails = () => {
+    if (jobDetails) {
+      const { StartedAt, completedAt } = jobDetails;
+      let result = "";
+      const start = moment(StartedAt);
+      const end = moment(completedAt);
+      const duration = moment.duration(end.diff(start, "seconds", true));
+
+      result += `Execution Time: ${duration.asSeconds()}s`;
+      return result;
+    }
+    return "";
+  };
+
 
   async function onDrop(acceptedFiles: File[]) {
     const file = acceptedFiles[0];

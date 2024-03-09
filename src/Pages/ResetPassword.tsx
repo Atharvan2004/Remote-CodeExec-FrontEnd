@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { resetPassword } from '../services/authApi';
@@ -30,10 +30,10 @@ const ResetPassword = () => {
     }
 
   return (
-    <div className=' flex justify-center items-center h-screen'>
+    <div className=' flex justify-center items-center h-screen bg-slate-200'>
       {loading?<div className='spinner'></div>
-      :<div className='w-[450px]'>
-        <h1 className=' text-3xl mb-3 font-medium'>Choose New Password</h1>
+      :<div className='w-[450px] rounded-3xl drop-shadow-2xl bg-white p-4'>
+        <h1 className=' text-3xl mb-3 font-medium text-center'>Choose New Password</h1>
         <p className=' mb-3'>Almost done. Enter your new password and you're all set.</p>
 
         <form onSubmit={handleSubmit(handleOnSubmit)}>
