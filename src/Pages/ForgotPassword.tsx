@@ -5,6 +5,7 @@ import { resetPasswordToken } from '../services/authApi';
 import { Link } from 'react-router-dom';
 import { BiArrowBack } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
+import Not_Available from '../../public/not_available.jpg'
 
 const ForgotPassword = () => {
     const dispatch=useDispatch();
@@ -28,7 +29,13 @@ const ForgotPassword = () => {
 
   return (
     <div className='flex justify-center items-center w-full h-screen my-auto bg-slate-200'>
-      <div className='w-[550px] bg-white p-8 rounded-3xl'>
+      <div className="hidden justify-center items-center max-md:flex">
+        <img
+        src={Not_Available}
+        className="h-screen"/>
+      </div>
+
+      <div className='w-[550px] bg-white p-8 rounded-3xl max-md:hidden'>
       {
         loading?<div className='spinner w-screen h-screen'></div>
         :<div>
