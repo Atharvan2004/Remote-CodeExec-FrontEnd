@@ -10,7 +10,7 @@ import { logout } from "../../services/authApi";
 const Navbar = () => {
   const [isRoomModalOpen, setIsRoomModalOpen] = useState(false);
   const { user } = useSelector((state: RootState) => state.profile);
-  const { token } = useSelector((state: RootState) => state.auth);
+  const { token }=useSelector((state:RootState)=>state.auth);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -41,29 +41,23 @@ const Navbar = () => {
                 </button>
               </Link>
 
-              <Link to="/sign-up">
-                <button className="bg-green-700 py-2 px-3 cursor-pointer rounded text-slate-200">
-                  Sign Up
-                </button>
-              </Link>
-            </>
-          )}
+                <Link to="/sign-up">
+                  <button className="bg-green-700 py-2 px-3 cursor-pointer rounded text-slate-200">
+                    Sign Up
+                  </button>
+                </Link>
+              </>
+            )
+          }
+         
 
-          {user && token && (
-            <>
-              <div className="group hover:cursor-pointer mr-4">
-                <img
-                  src={user?.image}
-                  width={35}
-                  height={35}
-                  className="rounded-full"
-                />
-                <div
-                  className="absolute top-[60px] right-[70px] mx-auto bg-slate-100 text-brand-orange p-2 rounded shadow-lg 
-                        z-40 group-hover:scale-100 scale-0 text-green-700
-                        transition-all duration-300 ease-in-out font-semibold"
-                >
-                  <p className="text-sm">{user.userName}</p>
+          
+          
+          {
+            user && token && (
+              <>
+                <div className="">
+                  <img src={user?.image} width={35} height={35} className="rounded-full"/>
                 </div>
               </div>
               <button
