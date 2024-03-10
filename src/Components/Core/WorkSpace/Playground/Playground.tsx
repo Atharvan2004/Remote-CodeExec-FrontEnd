@@ -265,7 +265,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           }}
           className="border-2  m-[6px] size-10 disabled:border-green-700"
         >
-          <img src="c.png" alt="c logo" />
+          <img src="/c.png" alt="c logo" />
         </button>
         <button
           disabled={fileName === "Main.java" ? true : false}

@@ -28,13 +28,13 @@ export default function PlayGround({ output,executionTime }: Props) {
         <div style={{position:"relative"}}>
           <InputValuesNavbar />
         </div>
-        <div className="w-full  text-green-700 pt-3 pl-2 overflow-scroll">
+        <div className="w-full  text-green-700 pt-3 pl-2 pr-2 overflow-scroll">
           Output:
           <div>
-            <pre style={{ color: "Red", paddingTop: "6px" }}>{executionTime}</pre>
+            <pre style={{ color: "Blue", paddingTop: "6px" }}>{executionTime}</pre>
           </div>
           <div>
-            <pre style={{ color: "GrayText", paddingTop: "6px" }}>{output}</pre>
+            <pre style={{ color: "GrayText", paddingTop: "6px", whiteSpace: "pre-wrap"  }}>{output}</pre>
           </div>
         </div>
       </Split>
