@@ -5,3 +5,4 @@ export const LOGIN_URL=`${BASE_URL}/login`;
 export const SENDOTP_URL=`${BASE_URL}/sendOTP`;
 export const RESETPASSWORDTOKEN_URL=`${BASE_URL}/resetpassword-token`;
 export const RESETPASSWORD_URL=`${BASE_URL}/resetpassword`;
+export const LOGOUT_URL=`${BASE_URL}/logout`;

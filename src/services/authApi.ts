@@ -1,5 +1,5 @@
 import toast from "react-hot-toast";
-import { LOGIN_URL, RESETPASSWORDTOKEN_URL, RESETPASSWORD_URL, SENDOTP_URL, SIGNUP_URL } from "../config";
+import { LOGIN_URL, LOGOUT_URL, RESETPASSWORDTOKEN_URL, RESETPASSWORD_URL, SENDOTP_URL, SIGNUP_URL } from "../config";
 import { setLoading, setToken } from "../slices/authSlice"
 import ApiConnector from "./ApiConnector";
 import { Dispatch } from "redux";
@@ -114,7 +114,7 @@ export function resetPasswordToken(email:string,setEmailSent:React.Dispatch<Reac
                 email                
             }})
             console.log("Reset token API RESPONSE....",response);
-            console.log(response.data);
+            // console.log(response.data);
 
             if(!response.data){
                 throw new Error(response.data.message)
@@ -157,9 +157,13 @@ export function resetPassword(password:string, confirmPassword:string, token:str
     }
 }
 
-export function logout(navigate:NavigateFunction){
+export function logout(navigate:NavigateFunction,email:string){
     return async(dispatch:Dispatch)=>{
         dispatch(setLoading(true));
+        const response=await ApiConnector({method:"POST",url:LOGOUT_URL,bodyData:{email}});
+        if(!response.data){
+            throw new Error(response.data.message);
+        }
         dispatch(setToken(null));
         dispatch(setUser(null));
 

@@ -68,7 +68,7 @@ const Navbar = () => {
               </div>
                 </div>
                 <button className="bg-slate-200 py-1.5 px-3 cursor-pointer rounded text-green-700 border-2 border-green-700" 
-                onClick={() => dispatch<any>(logout(navigate))}>
+                onClick={() => dispatch<any>(logout(navigate,user.email))}>
                   <FiLogOut />
                 </button>
               </>
