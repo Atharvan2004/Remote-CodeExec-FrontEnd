@@ -26,8 +26,6 @@ export function sendOTP(email:string,navigate: NavigateFunction){
 
         try {
             const response = await ApiConnector({ method: "POST", url: SENDOTP_URL, bodyData: { email } });
-            console.log("SEND OTP API RESPONSE....", response);
-            console.log(response.data);
 
             if (!response.data) {
                 throw new Error(response.data.message);
@@ -36,7 +34,6 @@ export function sendOTP(email:string,navigate: NavigateFunction){
             toast.success("OTP sent successfully");
             navigate("/verify-email");
         } catch (error) {
-            console.log("SEND OTP Error...",error);
             toast.error("Could not send otp");
         }
 
@@ -73,8 +70,6 @@ export function login(data:LoginProps,navigate:NavigateFunction){
 
         try {
             const response=await ApiConnector({method:"POST",url:LOGIN_URL,bodyData:data})
-            console.log("LOGIN API RESPONSE....",response);
-            console.log(response.data);
 
             if(!response.data){
                 throw new Error(response.data.message)
@@ -94,7 +89,6 @@ export function login(data:LoginProps,navigate:NavigateFunction){
             navigate("/");
 
         } catch (error) {
-            console.log("Login error...",error);
             toast.error("Could not login");
             navigate("/login")
         }
@@ -113,8 +107,6 @@ export function resetPasswordToken(email:string,setEmailSent:React.Dispatch<Reac
             const response=await ApiConnector({method:"POST",url:RESETPASSWORDTOKEN_URL,bodyData:{
                 email                
             }})
-            console.log("Reset token API RESPONSE....",response);
-            // console.log(response.data);
 
             if(!response.data){
                 throw new Error(response.data.message)
@@ -123,7 +115,6 @@ export function resetPasswordToken(email:string,setEmailSent:React.Dispatch<Reac
             toast.success("Email sent successfully");
             setEmailSent(true);
         } catch (error) {
-            console.log("SEND OTP Error...",error);
             toast.error("Could not send otp");
         }
 
@@ -139,7 +130,6 @@ export function resetPassword(password:string, confirmPassword:string, token:str
       try{
         const response = await ApiConnector({method:"POST", url:RESETPASSWORD_URL, bodyData:{password, confirmPassword, token}});
   
-        console.log("RESET Password RESPONSE ... ", response);
   
   
         if(!response.data.success) {
@@ -150,7 +140,6 @@ export function resetPassword(password:string, confirmPassword:string, token:str
         navigate("/login");
       }
       catch(error) {
-        console.log("RESET PASSWORD TOKEN Error", error);
         toast.error("Unable to reset password");
       }
       dispatch(setLoading(false));

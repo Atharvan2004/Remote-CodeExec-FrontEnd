@@ -20,7 +20,6 @@ const RoomNavbar = () => {
       toast.success("Room ID Copied");
     } catch (error) {
       toast.error("Failed to copy Room ID");
-      console.log(error);
     }
   };
 

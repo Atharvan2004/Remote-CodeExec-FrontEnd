@@ -65,7 +65,6 @@ if (!localStorage.getItem("codeFile")) {
 }
 
 async function getCode(fileName: string) {
-  // console.log(fileName);
   const codeFile = JSON.parse(localStorage.getItem("codeFile") || "");
   return codeFile[fileName].value;
 }
@@ -133,9 +132,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
     const f = localStorage.getItem("fileName") || "";
 
     codeFile[f].value = value;
-    console.log(codeFile[f].value);
     localStorage.setItem("codeFile", JSON.stringify(codeFile));
-    console.log(codeFile);
   }
 
   useEffect(() => {
@@ -163,7 +160,6 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
       code: await getCode(fileName),
       inputValues: inputValue,
     };
-    console.log(payload);
     try {
       
       const output = await axios.post(`${BASE_URL}/code`, payload);
@@ -174,7 +170,6 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
         const res = await axios.get(
           `${BASE_URL}/status?id=${output.data.data.jobID}`
         );
-        console.log(res.data.data);
 
         const { success, data } = res.data;
         if (success) {
@@ -195,7 +190,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
       }, 1000);
     } catch (error) {
       setLoading(false); // Also set loading to false in the catch block
-      console.log(error);
+      throw(error);
     }
   };
 
@@ -226,15 +221,12 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
 
   async function onDrop(acceptedFiles: File[]) {
     const file = acceptedFiles[0];
-    console.log(acceptedFiles[0]);
     const reader = new FileReader();
     const fileExtension = acceptedFiles[0].name.split(".").pop();
-    console.log(fileExtension);
     if (file) {
       reader.readAsText(file);
       reader.onload = async function (e) {
         const text = e.target?.result;
-        console.log(text);
         if (text) {
           const g = await getFileEntryByExtension(fileExtension || "");
           await setFileName(g); // Set the file name first

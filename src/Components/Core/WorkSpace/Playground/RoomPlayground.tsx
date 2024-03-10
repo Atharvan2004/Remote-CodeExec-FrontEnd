@@ -81,7 +81,6 @@ if (!localStorage.getItem("codeFile")) {
 }
 
 async function getCode(fileName: string) {
-  // console.log(fileName);
   const codeFile = JSON.parse(localStorage.getItem("codeFile") || "");
   return codeFile[fileName].value;
 }
@@ -143,9 +142,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
     const f = localStorage.getItem("fileName") || "";
 
     codeFile[f].value = value;
-    // console.log(codeFile[f].value);
     localStorage.setItem("codeFile", JSON.stringify(codeFile));
-    // console.log(codeFile);
 
     socketRef.current?.emit(ACTIONS.UPDATE_CODE, {
       roomId: roomId,
@@ -181,11 +178,9 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
       code: await getCode(fileName),
       inputValues: inputValue,
     };
-    console.log(payload);
     try {
       onRunButtonClick("", "");
       const output = await axios.post(`${BASE_URL}/code`, payload);
-      console.log(output.data.data);
 
       let intervalID: number | undefined;
 
@@ -193,7 +188,6 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
         const res = await axios.get(
           `${BASE_URL}/status?id=${output.data.data.jobID}`
         );
-        console.log(res);
 
         const { success, data } = res.data;
         if (success) {
@@ -211,7 +205,6 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
       }, 1000);
     } catch (error) {
       setLoading(false); // Also set loading to false in the catch block
-      console.log(error);
     }
   };
 
@@ -231,15 +224,12 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
 
   async function onDrop(acceptedFiles: File[]) {
     const file = acceptedFiles[0];
-    console.log(acceptedFiles[0]);
     const reader = new FileReader();
     const fileExtension = acceptedFiles[0].name.split(".").pop();
-    console.log(fileExtension);
     if (file) {
       reader.readAsText(file);
       reader.onload = async function (e) {
         const text = e.target?.result;
-        console.log(text);
         if (text) {
           const g = await getFileEntryByExtension(fileExtension || "");
           await setFileName(g); // Set the file name first
@@ -300,7 +290,6 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
       });
 
       function handleError(e: any) {
-        console.log("socket error", e);
         toast.error("Socket connection failed, try again later");
         navigate("/");
       }
@@ -323,7 +312,6 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
             toast.success(`${username} joined the room`);
           }
           setClients(clients);
-          console.log(clients);
         }
       );
 
@@ -345,7 +333,6 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
       socketRef.current?.on(
         ACTIONS.DISCONNECTED,
         ({ socketId, username }: { socketId: string; username: string }) => {
-          console.log("disconnected");
           if (username !== location.state?.username) {
             toast.success(`${username} left the room`);
           }
