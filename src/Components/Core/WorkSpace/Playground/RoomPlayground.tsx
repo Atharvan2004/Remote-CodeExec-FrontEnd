@@ -289,7 +289,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
         handleError(err);
       });
 
-      function handleError(e: any) {
+      function handleError(_e: any) {
         toast.error("Socket connection failed, try again later");
         navigate("/");
       }

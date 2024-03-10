@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import React, { useState, createContext } from "react";
 import Output from "./Output/OutputBox";
 import { Playground } from "./Playground/Playground";
