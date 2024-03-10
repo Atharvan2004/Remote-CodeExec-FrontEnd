@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
-import Client from "../Components/Client";
-import RoomNavbar from "../Components/Navbars/RoomNavbar";
-import RoomWorkSpace from "../Components/WorkSpace/RoomWorkspace";
+import Client from "../Components/Common/Layouts/Client";
+import RoomNavbar from "../Components/Core/Navbars/RoomNavbar";
+import RoomWorkSpace from "../Components/Core/WorkSpace/RoomWorkspace";
 
 interface Client {
   socketId: string;
@@ -23,7 +23,7 @@ const Room: React.FC = () => {
   const [clients, setClients] = useState<Client[]>([]);
   return (
     <>
-      <ClientsContext.Provider value={{clients, setClients}}>
+      <ClientsContext.Provider value={{ clients, setClients }}>
         <RoomNavbar />
         <RoomWorkSpace />
       </ClientsContext.Provider>

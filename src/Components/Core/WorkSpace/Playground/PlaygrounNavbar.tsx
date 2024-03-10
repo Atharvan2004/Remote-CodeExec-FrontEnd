@@ -5,7 +5,7 @@ import {
   AiOutlineSetting,
 } from "react-icons/ai";
 import { IsSettings } from "./Playground.tsx";
-import SettingsModal from "../../Modals/SettingsModal.tsx";
+import SettingsModal from "../../../Common/Modals/SettingsModal.tsx";
 
 type Props = {
   language: string;
@@ -15,7 +15,13 @@ type Props = {
   loading: boolean;
 };
 
-function InputNavbar({ language, fetchRun, settings, setSettings ,loading}: Props) {
+function InputNavbar({
+  language,
+  fetchRun,
+  settings,
+  setSettings,
+  loading,
+}: Props) {
   const [isFullscreen, setFullscreen] = useState(false);
 
   const handleFullScreen = () => {
@@ -58,10 +64,10 @@ function InputNavbar({ language, fetchRun, settings, setSettings ,loading}: Prop
 
       <div className="flex items-center m-2">
         <button
-            onClick={loading ? () => {} : fetchRun }
-            className=" rounded px-3 py-1.5 font-medium items-center transition-all focus:outline-none inline-flex  ml-auto p-1 mr-2 bg-green-700 text-white"
-        >{loading?"Loading..":"Run"}
-         
+          onClick={loading ? () => {} : fetchRun}
+          className=" rounded px-3 py-1.5 font-medium items-center transition-all focus:outline-none inline-flex  ml-auto p-1 mr-2 bg-green-700 text-white"
+        >
+          {loading ? "Loading.." : "Run"}
         </button>
         <button
           className="relative rounded px-3 py-1.5 font-medium items-center transition-all focus:outline-none inline-flex  ml-auto p-1 mr-2 group"

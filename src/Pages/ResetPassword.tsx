@@ -6,7 +6,7 @@ import { resetPassword } from "../services/authApi";
 import { useForm } from "react-hook-form";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { BiArrowBack } from "react-icons/bi";
-import Not_Available from '../../public/not_available.jpg'
+import Not_Available from '../assets/not_available.jpg'
 
 const ResetPassword = () => {
   const dispatch = useDispatch();

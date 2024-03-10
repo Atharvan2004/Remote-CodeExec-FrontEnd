@@ -6,7 +6,7 @@ import { sendOTP, signUpUser } from '../services/authApi';
 import OTPInput from 'react-otp-input';
 import {BiArrowBack} from 'react-icons/bi';
 import {RxCountdownTimer} from 'react-icons/rx';
-import Not_Available from '../../public/not_available.jpg'
+import Not_Available from '../assets/not_available.jpg';
 
 
 const VerifyEmail = () => {

@@ -5,7 +5,7 @@ import { Toaster } from "react-hot-toast";
 import "./index.css";
 import SignInPage from "./Pages/SignInPage.tsx";
 import SignUpPage from "./Pages/SignUpPage.tsx";
-import RestrictedRoute from "./Components/RestrictedRoute.tsx";
+import RestrictedRoute from "./Components/Common/RestrictedRoute/RestrictedRoute.tsx";
 import VerifyEmail from "./Pages/VerifyEmail.tsx";
 import ForgotPassword from "./Pages/ForgotPassword.tsx";
 import ResetPassword from "./Pages/ResetPassword.tsx";

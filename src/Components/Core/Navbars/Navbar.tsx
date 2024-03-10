@@ -2,10 +2,10 @@
 import { Link, useNavigate } from "react-router-dom";
 import { FiLogOut } from "react-icons/fi";
 import { useState } from "react";
-import NewRoomModal from "../Modals/NewRoomModal";
+import NewRoomModal from "../../Common/Modals/NewRoomModal";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../main";
-import { logout } from "../../services/authApi";
+import { RootState } from "../../../main";
+import { logout } from "../../../services/authApi";
 
 
 const Navbar = () => {
@@ -17,7 +17,7 @@ const Navbar = () => {
 
   return (
     <nav className=" flex h-[70px] w-full shrink-0 items-center px-5 border-2 border-green-700">
-      <div className={`flex w-full items-center justify-between`}>
+      <div className="flex w-full items-center justify-between">
       
         {
           user && (

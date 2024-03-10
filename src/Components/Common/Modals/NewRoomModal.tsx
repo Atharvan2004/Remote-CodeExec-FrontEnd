@@ -3,7 +3,7 @@ import { v4 as uuid, validate } from "uuid";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RootState } from "../../main";
+import { RootState } from "../../../main";
 
 type Props = {
   isRoomModalOpen: boolean;

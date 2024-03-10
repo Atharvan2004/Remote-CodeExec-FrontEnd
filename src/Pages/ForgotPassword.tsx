@@ -5,7 +5,7 @@ import { resetPasswordToken } from '../services/authApi';
 import { Link } from 'react-router-dom';
 import { BiArrowBack } from 'react-icons/bi';
 import { useForm } from 'react-hook-form';
-import Not_Available from '../../public/not_available.jpg'
+import Not_Available from '../assets/not_available.jpg'
 
 const ForgotPassword = () => {
     const dispatch=useDispatch();

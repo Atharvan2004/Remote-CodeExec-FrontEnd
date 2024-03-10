@@ -9,8 +9,8 @@ import { useState, useEffect, useCallback, useContext, useRef } from "react";
 import { FaJava } from "react-icons/fa";
 import { FaPython } from "react-icons/fa";
 import axios from "axios";
-import { useLocalStorage } from "../../Hooks/useLocalStorage";
-import { BASE_URL } from "../../../config";
+import { useLocalStorage } from "../../../Common/Hooks/useLocalStorage";
+import { BASE_URL } from "../../../../config";
 import { inputValuesContext } from "../WorkSpace";
 import { useDropzone } from "react-dropzone";
 import moment from "moment";
@@ -93,9 +93,8 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
   const [code, setCode] = useState(code1[fileName1].value);
   const { inputValue } = useContext(inputValuesContext);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [status, setStatus] = useState("");
   const [jobDetails, setJobDetails] = useState(null);
-  const [loading,setLoading]=useState(false);
+  const [loading, setLoading] = useState(false);
 
   async function handleEditorMount() {
     if (localStorage.getItem("fileName")) {
@@ -165,30 +164,27 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
     };
     console.log(payload);
     try {
-      setStatus("");
       onRunButtonClick("", "");
       const output = await axios.post(`${BASE_URL}/code`, payload);
       console.log(output.data.data);
-  
+
       let intervalID: number | undefined;
-  
+
       intervalID = setInterval(async () => {
         const res = await axios.get(
           `${BASE_URL}/status?id=${output.data.data.jobID}`
         );
         console.log(res);
-  
+
         const { success, data } = res.data;
         if (success) {
           const { status: jobStatus, output: jobOutput } = data;
-          setStatus(jobStatus);
           setJobDetails(data);
           if (jobStatus === "running") return;
-          onRunButtonClick(jobOutput,renderTimeDetails());
+          onRunButtonClick(jobOutput, renderTimeDetails());
           setLoading(false); // Move setLoading(false) here
           clearInterval(intervalID);
         } else {
-          setStatus("Error! Please try again.");
           setLoading(false); // And here
           clearInterval(intervalID);
           onRunButtonClick("Error in fetching output", "");

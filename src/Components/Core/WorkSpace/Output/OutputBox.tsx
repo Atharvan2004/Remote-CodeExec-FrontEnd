@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useEffect } from "react";
-import { InputValuesNavbar } from "./RoomInputNavbar";
+import { InputValuesNavbar } from "../Input/InputNavbar";
 import Split from "react-split";
+import { useEffect } from "react";
 
 type Props = {
   output: any;
@@ -9,7 +9,7 @@ type Props = {
   executionTime: string;
 };
 
-export default function PlayGround({ output, executionTime }: Props) {
+export default function PlayGround({ output,executionTime }: Props) {
   useEffect(() => {
     const gutterElement:any = document.querySelector('.gutter.gutter-vertical');
     if (gutterElement) {
@@ -25,16 +25,16 @@ export default function PlayGround({ output, executionTime }: Props) {
         sizes={[50, 50]}
         minSize={100}
       >
-        <div className="top-parent-div" style={{position:"relative"}}>
-          <InputValuesNavbar  />
+        <div style={{position:"relative"}}>
+          <InputValuesNavbar />
         </div>
-        <div className="w-full text-green-700 pt-2 pl-2 overflow-scroll">
+        <div className="w-full  text-green-700 pt-3 pl-2 overflow-scroll">
           Output:
           <div>
             <pre style={{ color: "Red", paddingTop: "6px" }}>{executionTime}</pre>
           </div>
           <div>
-            <pre style={{ color: "GrayText", paddingTop: "4px" }}>{output}</pre>
+            <pre style={{ color: "GrayText", paddingTop: "6px" }}>{output}</pre>
           </div>
         </div>
       </Split>

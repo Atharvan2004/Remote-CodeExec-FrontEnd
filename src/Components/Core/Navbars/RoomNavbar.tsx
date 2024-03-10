@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { Link } from "react-router-dom";
-import Client from "../Client";
+import Client from "../../Common/Layouts/Client";
 import toast from "react-hot-toast";
-import { ClientsContext } from "../../Pages/Room";
+import { ClientsContext } from "../../../Pages/Room";
 
 interface Client {
   socketId: string;
@@ -42,22 +42,6 @@ const RoomNavbar = () => {
           >
             Copy ROOM ID
           </button>
-          {/* <div className="cursor-pointer group relative">
-            <img
-              src="/avatar.png"
-              alt="Avatar"
-              width={30}
-              height={30}
-              className="rounded-full border-2 border-green-700"
-            />
-            <div
-              className="absolute top-10 left-2/4 -translate-x-2/4  mx-auto bg-slate-200 text-brand-orange p-2 rounded shadow-lg 
-                        z-40 group-hover:scale-100 scale-0 text-green-700
-                        transition-all duration-300 ease-in-out"
-            >
-              <p className="text-sm">{"Email"}</p>
-            </div>
-          </div> */}
           <Link to="/" replace={true} state={""}>
             <button className="bg-slate-200 py-1.5 px-3 cursor-pointer rounded text-green-700 border-2 border-green-700 group">
               <FiLogOut />
@@ -66,7 +50,7 @@ const RoomNavbar = () => {
               z-40 group-hover:scale-100 scale-0 text-green-700
               transition-all duration-300 ease-in-out"
               >
-                <p className="text-sm">{"Leave room?"}</p>
+                <p className="text-sm font-semibold">{"Leave room?"}</p>
               </div>
             </button>
           </Link>

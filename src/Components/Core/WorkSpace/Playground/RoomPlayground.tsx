@@ -9,14 +9,14 @@ import { useState, useEffect, useCallback, useContext, useRef } from "react";
 import { FaJava } from "react-icons/fa";
 import { FaPython } from "react-icons/fa";
 import axios from "axios";
-import { useLocalStorage } from "../../Hooks/useLocalStorage";
-import { BASE_URL } from "../../../config";
+import { useLocalStorage } from "../../../Common/Hooks/useLocalStorage";
+import { BASE_URL } from "../../../../config";
 import { CodeValuesContext } from "../RoomWorkspace";
 import { useDropzone } from "react-dropzone";
 import toast from "react-hot-toast";
-import { ClientsContext } from "../../../Pages/Room";
-import { ACTIONS } from "../../../Actions";
-import { initSocket } from "../../../socket";
+import { ClientsContext } from "../../../../Pages/Room";
+import { ACTIONS } from "../../../../Actions";
+import { initSocket } from "../../../../socket";
 import {
   Navigate,
   useLocation,
@@ -112,8 +112,8 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
   const [code, setCode] = useState(code1[fileName1].value);
   const { inputValue } = useContext(CodeValuesContext);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [status, setStatus] = useState("");
   const [jobDetails, setJobDetails] = useState(null);
+  const [loading, setLoading] = useState(false);
 
   const socketRef = useRef<Socket>();
   const location = useLocation();
@@ -175,6 +175,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
   }, [fileName]);
 
   const fetch = async () => {
+    setLoading(true);
     const payload = {
       codeLang: await getCodeLang(fileName),
       code: await getCode(fileName),
@@ -182,10 +183,8 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
     };
     console.log(payload);
     try {
-      setStatus("");
       onRunButtonClick("", "");
       const output = await axios.post(`${BASE_URL}/code`, payload);
-      // onRunButtonClick(output.data.data.jobID);
       console.log(output.data.data);
 
       let intervalID: number | undefined;
@@ -199,18 +198,19 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
         const { success, data } = res.data;
         if (success) {
           const { status: jobStatus, output: jobOutput } = data;
-          setStatus(jobStatus);
           setJobDetails(data);
           if (jobStatus === "running") return;
           onRunButtonClick(jobOutput, renderTimeDetails());
+          setLoading(false); // Move setLoading(false) here
           clearInterval(intervalID);
         } else {
-          setStatus("Error! Please try again.");
+          setLoading(false); // And here
           clearInterval(intervalID);
           onRunButtonClick("Error in fetching output", "");
         }
       }, 1000);
     } catch (error) {
+      setLoading(false); // Also set loading to false in the catch block
       console.log(error);
     }
   };
@@ -221,7 +221,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
       let result = "";
       const start = moment(StartedAt);
       const end = moment(completedAt);
-      const duration = moment.duration(end.diff(start, "seconds", true));
+      const duration = moment.duration(end.diff(start));
 
       result += `Execution Time: ${duration.asSeconds()}s`;
       return result;
@@ -430,6 +430,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
           fetchRun={fetch}
           settings={settings}
           setSettings={setSettings}
+          loading={loading}
         />
         <div {...getRootProps()}>
           <input
