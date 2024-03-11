@@ -1,4 +1,5 @@
-export const BASE_URL = 'http://ec2-13-232-34-74.ap-south-1.compute.amazonaws.com';
+// export const BASE_URL = 'http://ec2-13-232-34-74.ap-south-1.compute.amazonaws.com';
+export const BASE_URL='https://remote-code-executor-backend.onrender.com';
 // export const BASE_URL = 'http://localhost:3000';
 export const SIGNUP_URL=`${BASE_URL}/signup`;
 export const LOGIN_URL=`${BASE_URL}/login`;
