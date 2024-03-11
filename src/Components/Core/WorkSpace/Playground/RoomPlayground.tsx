@@ -113,6 +113,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
   const inputRef = useRef<HTMLInputElement>(null);
   const [jobDetails, setJobDetails] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [jobOutput, setJobOutput] = useState(false);
 
   const socketRef = useRef<Socket>();
   const location = useLocation();
@@ -191,7 +192,8 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
 
         const { success, data } = res.data;
         if (success) {
-          const { status: jobStatus, output: jobOutput } = data;
+          const { status: jobStatus } = data;
+          setJobOutput(data.output)
           setJobDetails(data);
           if (jobStatus === "running") return;
           onRunButtonClick(jobOutput, renderTimeDetails());
@@ -221,6 +223,18 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
     }
     return "";
   };
+
+  useEffect(() => {
+    if (jobDetails) {
+      const { StartedAt, completedAt } = jobDetails;
+      let result = "";
+      const start = moment(StartedAt);
+      const end = moment(completedAt);
+      const duration = moment.duration(end.diff(start));
+      result += `Execution Time: ${duration.asSeconds()}s`;
+      onRunButtonClick(jobOutput, result);
+    }
+  }, [jobDetails,jobOutput]);
 
   async function onDrop(acceptedFiles: File[]) {
     const file = acceptedFiles[0];
