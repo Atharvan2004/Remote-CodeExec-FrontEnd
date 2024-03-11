@@ -25,6 +25,10 @@ import {
 } from "react-router-dom";
 import { Socket } from "socket.io-client";
 import moment from "moment";
+import Clogo from '../../../../../public/c.png'
+import Cpplogo from '../../../../../public/cpp.png'
+import JavaScriptlogo from '../../../../../public/javascript.png'
+
 
 type FileEntry = {
   name: string;
@@ -383,7 +387,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
           }}
           className="border-2 m-[6px] size-10 disabled:border-green-700"
         >
-          <img src="/cpp.png" alt="c++ logo" />
+          <img src={Cpplogo} alt="c++ logo" />
         </button>
         <button
           disabled={fileName === "main.c" ? true : false}
@@ -392,7 +396,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
           }}
           className="border-2  m-[6px] size-10 disabled:border-green-700"
         >
-          <img src="/c.png" alt="c logo" />
+          <img src={Clogo} alt="c logo" />
         </button>
         <button
           disabled={fileName === "Main.java" ? true : false}
@@ -422,7 +426,7 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
           }}
           className="border-2  m-[6px] size-10 disabled:border-green-700"
         >
-          <img src="/javascript.png" alt="javascript logo" />
+          <img src={JavaScriptlogo} alt="javascript logo" />
         </button>
       </div>
       <div className="w-[55vw] border-r-[10px] border-slate-200">

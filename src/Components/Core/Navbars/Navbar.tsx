@@ -6,6 +6,7 @@ import NewRoomModal from "../../Common/Modals/NewRoomModal";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../main";
 import { logout } from "../../../services/authApi";
+import Logo from '../../../../public/logo1.png'
 
 
 const Navbar = () => {
@@ -31,7 +32,7 @@ const Navbar = () => {
         
         <div>
           <Link to="/" className=" ">
-            <img src="/logo1.png" alt="Logo" height={100} width={100} />
+            <img src={Logo} alt="Logo" height={100} width={100} />
           </Link>
         </div>
 

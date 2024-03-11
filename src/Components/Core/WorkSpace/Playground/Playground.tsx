@@ -262,7 +262,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           }}
           className="border-2 m-[6px] size-10 disabled:border-green-700"
         >
-          <img src="/cpp.png" alt="c++ logo" />
+          <img src="./cpp.png" alt="c++ logo" />
         </button>
         <button
           disabled={fileName === "main.c" ? true : false}
@@ -271,7 +271,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           }}
           className="border-2  m-[6px] size-10 disabled:border-green-700"
         >
-          <img src="/c.png" alt="c logo" />
+          <img src="./c.png" alt="c logo" />
         </button>
         <button
           disabled={fileName === "Main.java" ? true : false}
@@ -298,7 +298,7 @@ export const Playground: React.FC<InputBoxProps> = ({ onRunButtonClick }) => {
           }}
           className="border-2  m-[6px] size-10 disabled:border-green-700"
         >
-          <img src="/javascript.png" alt="javascript logo" />
+          <img src="./javascript.png" alt="javascript logo" />
         </button>
       </div>
       <div className="w-[55vw] border-r-[10px] border-slate-200">

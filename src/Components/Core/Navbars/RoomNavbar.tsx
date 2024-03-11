@@ -5,6 +5,7 @@ import Client from "../../Common/Layouts/Client";
 import toast from "react-hot-toast";
 import { ClientsContext } from "../../../Pages/Room";
 import copy from 'copy-to-clipboard'
+import Logo from '../../../../public/logo1.png'
 
 interface Client {
   socketId: string;
@@ -33,7 +34,7 @@ const RoomNavbar = () => {
           ))}
         </div>
         <div>
-          <img src="/logo1.png" alt="Logo" height={100} width={100} />
+          <img src={Logo} alt="Logo" height={100} width={100} />
         </div>
         <div className="flex items-center space-x-7 mr-2 justify-end">
           <button

@@ -31,7 +31,7 @@ export default function Home() {
       ) : (
     <div className="h-screen">
       <div className="hidden justify-center items-center max-md:flex">
-        <img src={not_available} className="h-screen" />
+        <img src={not_available} alt="Not Availabe for this resolution, please switch to higher resolution" className="h-screen" />
       </div>
 
       <div className="max-md:hidden">
