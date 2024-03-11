@@ -18,9 +18,9 @@ export default function PlayGround({ output, executionTime }: Props) {
     }
   }, []);
   return (
-    <div className="flex flex-col w-full overflow-scroll">
+    <div className="flex flex-col w-full">
       <Split
-        className="h-[calc(100vh-75px)]"
+        className="h-[calc(100vh-70px)]"
         direction="vertical"
         sizes={[50, 50]}
         minSize={100}

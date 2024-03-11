@@ -67,7 +67,7 @@ return (
                 style={{
                     boxShadow: "inset 0px -1px 0px rgba(255, 255, 255, 0.18)",
                 }}
-                className="w-[40px] lg:w-[54px] text-2xl border-2 rounded-[0.5rem] aspect-square text-center focus:border-0 focus:outline-2 focus:outline-yellow-50 border-green-700"
+                className="w-[40px] lg:w-[54px] text-2xl border-2 rounded-[0.5rem] aspect-square text-center focus:border-0 focus:outline-2  border-green-700"
                 />}                    
                 />
                 <button

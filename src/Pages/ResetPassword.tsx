@@ -77,7 +77,7 @@ const ResetPassword = () => {
 
               <span
                 onClick={() => setShowPassword((prevState) => !prevState)}
-                className="absolute text-xl top-14 left-[410px]"
+                className="absolute text-xl top-12 left-[410px]"
               >
                 {showPassword ? <AiOutlineEyeInvisible /> : <AiOutlineEye />}
               </span>

@@ -18,9 +18,9 @@ export default function PlayGround({ output,executionTime }: Props) {
     }
   }, []);
   return (
-    <div className="flex flex-col w-full overflow-scroll">
+    <div className="flex flex-col w-full ">
       <Split
-        className="h-[calc(100vh-75px)]"
+        className="h-[calc(100vh-70px)]"
         direction="vertical"
         sizes={[50, 50]}
         minSize={100}
@@ -28,7 +28,7 @@ export default function PlayGround({ output,executionTime }: Props) {
         <div style={{position:"relative"}}>
           <InputValuesNavbar />
         </div>
-        <div className="w-full  text-green-700 pt-3 pl-2 pr-2 overflow-scroll">
+        <div className="w-full  text-green-700 pt-3 pl-2 overflow-scroll">
           Output:
           <div>
             <pre style={{ color: "Blue", paddingTop: "6px" }}>{executionTime}</pre>
