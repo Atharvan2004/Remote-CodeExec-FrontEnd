@@ -6,7 +6,7 @@ import NewRoomModal from "../../Common/Modals/NewRoomModal";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../../../main";
 import { logout } from "../../../services/authApi";
-import Logo from '../../../../public/logo1.png'
+import Logo from '/logo1.png'
 
 
 const Navbar = () => {

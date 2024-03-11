@@ -25,9 +25,9 @@ import {
 } from "react-router-dom";
 import { Socket } from "socket.io-client";
 import moment from "moment";
-import Clogo from '../../../../../public/c.png'
-import Cpplogo from '../../../../../public/cpp.png'
-import JavaScriptlogo from '../../../../../public/javascript.png'
+import Clogo from '/c.png'
+import Cpplogo from '/cpp.png'
+import JavaScriptlogo from '/javascript.png'
 
 
 type FileEntry = {

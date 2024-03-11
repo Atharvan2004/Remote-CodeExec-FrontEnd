@@ -5,7 +5,7 @@ import Client from "../../Common/Layouts/Client";
 import toast from "react-hot-toast";
 import { ClientsContext } from "../../../Pages/Room";
 import copy from 'copy-to-clipboard'
-import Logo from '../../../../public/logo1.png'
+import Logo from '/logo1.png'
 
 interface Client {
   socketId: string;
