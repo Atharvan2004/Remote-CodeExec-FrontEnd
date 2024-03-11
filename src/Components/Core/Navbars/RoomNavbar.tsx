@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import Client from "../../Common/Layouts/Client";
 import toast from "react-hot-toast";
 import { ClientsContext } from "../../../Pages/Room";
+import copy from 'copy-to-clipboard'
 
 interface Client {
   socketId: string;
@@ -14,7 +15,7 @@ const RoomNavbar = () => {
   const { clients } = useContext(ClientsContext);
   const copyRoomId = async () => {
     try {
-      await navigator.clipboard.writeText(
+      copy(
         window.location.pathname.split("/")[2]
       );
       toast.success("Room ID Copied");
@@ -37,7 +38,7 @@ const RoomNavbar = () => {
         <div className="flex items-center space-x-7 mr-2 justify-end">
           <button
             className="bg-orange-500 text-white py-1.5 px-3 cursor-pointer rounded hover:bg-orange-600 "
-            onClick={copyRoomId}
+            onClick={()=>copyRoomId()}
           >
             Copy ROOM ID
           </button>
