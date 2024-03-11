@@ -183,9 +183,9 @@ export const RoomPlayground: React.FC<InputBoxProps> = ({
       onRunButtonClick("", "");
       const output = await axios.post(`${BASE_URL}/code`, payload);
 
-      let intervalID: NodeJS.Timeout | undefined;
+      let intervalID: number;
 
-      intervalID = setInterval(async () => {
+      intervalID = window.setInterval(async () => {
         const res = await axios.get(
           `${BASE_URL}/status?id=${output.data.data.jobID}`
         );
